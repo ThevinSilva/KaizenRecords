@@ -1,0 +1,52 @@
+@font-face {
+    font-family: 'THE BOLD FONT - FREE VERSION - 2023';
+    src: local('THE BOLD FONT - FREE VERSION - 2023'), 
+         url('./fonts/THE BOLD FONT - FREE VERSION - 2023.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    /* Add other properties if needed */
+}
+
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i');
+
+*{
+  font-family: 'THE BOLD FONT - FREE VERSION - 2023';
+}
+
+body{
+  background-color: #000000;
+  margin: 0em;
+}
+
+@property --clock-hands-position {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+
+@keyframes wipeIn {
+  to {
+      --clock-hands-position: 100%;
+  }
+  from {
+      --clock-hands-position: calc(-1 * var(--gradient-length)) ;
+  }
+}
+
+.clock {
+  --clock-hands-position: calc(-1 * var(--gradient-length));
+  --gradient-length: 10%;
+  transform: rotate(30deg);
+  -webkit-mask-image: conic-gradient(
+      black var(--clock-hands-position),
+      transparent calc(var(--clock-hands-position) + var(--gradient-length)),
+      transparent
+  );
+
+  animation: wipeIn 2s ease 2s forwards; /* Wipe in after a 2s delay */
+}
+
+/* The :hover style is no longer necessary, so it can be removed. */
+
+
+/* Remove hover effect since it's not needed anymore */
