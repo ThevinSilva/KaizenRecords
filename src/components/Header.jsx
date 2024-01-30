@@ -3,12 +3,19 @@ import styled from "styled-components"
 import Button from "../lib/Button"
 import {motion} from "framer-motion"
 
+
+
 const Menu = styled.div`
     position: relative;
-    height: 12%;
+    height: 40px;
     display: flex;
     justify-content: space-between;
-    margin: 0.75% 2%;
+    margin: 3px 2%;
+
+    @media (max-width: 768px) {
+        height: 26px;
+        margin: 3px 1%;
+    }
 
 `
 

@@ -1,6 +1,8 @@
-import { FaTwitter, FaDiscord, FaInstagram } from 'react-icons/fa';
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { FaTwitter, FaDiscord, FaInstagram } from 'react-icons/fa'
+import styled from 'styled-components'
+import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { useMediaQuery } from 'react-responsive'
 
 const SocialLink = styled(motion.a)`
   margin: 0 10px;
@@ -13,10 +15,10 @@ const SocialsContainer = styled.div`
   align-items: center;
 `;
 
-const LINKS = [
-  { icon: <FaTwitter size={30} />, url: "https://twitter.com/yourusername" },
-  { icon: <FaDiscord size={30} />, url: "https://discord.com/users/youruserid" },
-  { icon: <FaInstagram size={30} />, url: "https://instagram.com/yourusername" },
+const LINKS = (size) => [
+  { icon: <FaTwitter size={size} />, url: "https://twitter.com/yourusername" },
+  { icon: <FaDiscord size={size} />, url: "https://discord.com/users/youruserid" },
+  { icon: <FaInstagram size={size} />, url: "https://instagram.com/yourusername" },
 ];
 
 const containerVariants = {
@@ -43,9 +45,15 @@ const itemVariants = {
 };
 
 const Socials = () => {
+  const [isDesktop , setIsDesktop] = useState(false)
+  const desktop = useMediaQuery({ query : "(min-width : 768px)"})
+
+  useEffect(() => {
+    setIsDesktop(desktop) 
+  },[desktop])
   return (
     <SocialsContainer as={motion.div} initial="hidden" animate="visible" variants={containerVariants}>
-      {LINKS.map(({ icon, url }, index) => (
+      {LINKS(isDesktop ? 30 : 20).map(({ icon, url }, index) => (
         <SocialLink
           key={index}
           href={url}

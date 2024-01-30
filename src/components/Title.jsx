@@ -1,26 +1,36 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
-import TextStaggeredAnimation from "../lib/TextStaggerAnimation"
+// import TextStaggeredAnimation from "../lib/TextStaggerAnimation"
+import TextPopUpAnimation from "../lib/TextPopUpAnimation"
+
 
 const Text = styled(motion.span)`
-  font-size: 10em;
   font-family: ${props => props.theme.fonts.primary};
   color: ${props => props.theme.colors.dark};
   display: block;
   z-index: 100;
+  font-size: 10em;
+
+  @media (max-width: 1200px) {
+        font-size: 7em !important;
+  }
+
+  @media (max-width: 500px) {
+        font-size: 5em !important;
+  }
 `;
 
 export default function Title() {
   // eslint-disable-next-line react/prop-types
   return (
     <Text>
-      <TextStaggeredAnimation
+      <TextPopUpAnimation
         delay={100}
         stagger={0.2}
-        offset={1}
+        // offset={1}
       >
         Kaizen
-      </TextStaggeredAnimation>
+      </TextPopUpAnimation>
     </Text>
   );
 }

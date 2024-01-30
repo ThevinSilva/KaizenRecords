@@ -58,7 +58,13 @@ export default function Button({ link, delay, children }) {
       {children}
       <Slide
         style={{scale:0}}
-        animate={{scale: hover ? 1 : 0}}
+        animate={{
+          scale: hover ? 1 : 0,
+          transition:{
+            ease: "easeInOut",
+            duration : 0.2
+          }
+        }}
       />
     </Container>
   )
