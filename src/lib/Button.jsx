@@ -16,6 +16,7 @@ const Container = styled(motion.a)`
   margin: 0em 0.5em;
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
+  text-decoration: none;
 
 `;
 
@@ -28,7 +29,6 @@ const Slide = styled(motion.div)`
   height: 100%;
 
 `
-
 // NOTE : ADD IN VIEW 
 
 // eslint-disable-next-line react/prop-types

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
+import links from '../links'
 
 const SocialLink = styled(motion.a)`
   margin: 0 10px;
@@ -16,9 +17,9 @@ const SocialsContainer = styled.div`
 `;
 
 const LINKS = (size) => [
-  { icon: <FaTwitter size={size} />, url: "https://twitter.com/yourusername" },
-  { icon: <FaDiscord size={size} />, url: "https://discord.com/users/youruserid" },
-  { icon: <FaInstagram size={size} />, url: "https://instagram.com/yourusername" },
+  { icon: <FaTwitter size={size} />, url: links.twitter },
+  { icon: <FaDiscord size={size} />, url: links.discord },
+  { icon: <FaInstagram size={size} />, url: links.instagram },
 ];
 
 const containerVariants = {

@@ -37,6 +37,11 @@ body{
   --clock-hands-position: calc(-1 * var(--gradient-length));
   --gradient-length: 10%;
   transform: rotate(30deg);
+  mask-image: conic-gradient(
+    black var(--clock-hands-position),
+    transparent calc(var(--clock-hands-position) + var(--gradient-length)),
+    transparent
+  );
   -webkit-mask-image: conic-gradient(
       black var(--clock-hands-position),
       transparent calc(var(--clock-hands-position) + var(--gradient-length)),

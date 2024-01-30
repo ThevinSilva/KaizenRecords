@@ -6,8 +6,6 @@ import Hero from './components/Hero.jsx'
 import Header from "./components/Header.jsx";
 import Background from "./components/Background.jsx";
 
-
-
 const Centered = styled.div`
   position: absolute;
   display: flex;
