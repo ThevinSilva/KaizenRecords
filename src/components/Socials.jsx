@@ -33,7 +33,7 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { y: -50, x:-40, opacity:0 },
+  hidden: { y: 50, x:-40, opacity:0 },
   visible: {
     y: 0,
     x: 0,

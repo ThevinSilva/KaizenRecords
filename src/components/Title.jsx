@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
 // import TextStaggeredAnimation from "../lib/TextStaggerAnimation"
-import TextPopUpAnimation from "../lib/TextPopUpAnimation"
+// import TextPopUpAnimation from "../lib/TextPopUpAnimation"
 
 
 const Text = styled(motion.span)`
@@ -23,14 +23,30 @@ const Text = styled(motion.span)`
 export default function Title() {
   // eslint-disable-next-line react/prop-types
   return (
-    <Text>
-      <TextPopUpAnimation
+    <Text
+      initial={{
+        opacity : 0,
+        scale : 0,
+      }}
+
+      animate={{
+        opacity : 1,
+        scale : 1,
+        transition : {
+          type: "spring",
+          damping: 12,
+          stiffness: 100,
+        }
+      }}
+
+    >
+      {/* <TextPopUpAnimation
         delay={100}
         stagger={0.2}
         // offset={1}
-      >
+      > */}
         Kaizen
-      </TextPopUpAnimation>
+      {/* </TextPopUpAnimation> */}
     </Text>
   );
 }

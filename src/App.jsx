@@ -3,8 +3,9 @@ import theme from './theme.js';
 import './styles.css'
 
 import Hero from './components/Hero.jsx'
-import Header from "./components/Header.jsx";
-import Background from "./components/Background.jsx";
+import Header from "./components/Header.jsx"
+import Background from "./components/Background.jsx"
+import Footer from './components/Footer.jsx'
 
 const Centered = styled.div`
   position: absolute;
@@ -21,11 +22,12 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Background/>
-          <Header/>
-            <Centered>
-              <Hero/>
-              {/* <ScrollDownIndicator/> */}
-            </Centered>
+        <Header/>
+          <Centered>
+            <Hero/>
+            {/* <ScrollDownIndicator/> */}
+          </Centered>
+      <Footer/>
     </ThemeProvider>
   )
 }

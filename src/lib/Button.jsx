@@ -9,13 +9,13 @@ const Container = styled(motion.a)`
   width: 5em;
   height: 100%;
   /* padding: 3%; */
-  border: solid 0.1em ${props => props.theme.colors.accent};
+  border: solid 0.1em ${props => props.theme.colors.light};
   cursor: pointer;
-  color: ${props => props.theme.colors.accent};
+  color: ${props => props.theme.colors.light};
   background-color: transparent; // Default background color
-  margin: 0em 0.5em;
+  /* margin: 0em 0.5em; */
   font-family: 'Roboto', sans-serif;
-  font-weight: 500;
+  font-weight: 700;
   text-decoration: none;
 
 `;
@@ -24,7 +24,7 @@ const Slide = styled(motion.div)`
   transform-origin: top left;
   z-index: -1;
   position: absolute;
-  background-color: ${props => props.theme.colors.accent};
+  background-color: ${props => props.theme.colors.light};
   width: 5em;
   height: 100%;
 
@@ -50,7 +50,8 @@ export default function Button({ link, delay, children }) {
       }}}
       href={link}
       whileHover={{
-        color: '#ffffff'
+        // color: '#ffffff',
+        color: '#ca0e25'
       }}
       onHoverStart={() => setHover(true)}
       onHoverEnd={() => setHover(false)}

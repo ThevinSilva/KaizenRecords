@@ -1,7 +1,6 @@
-import Socials from "./Socials"
+// import Socials from "./Socials"
 import styled from "styled-components" 
 import Button from "../lib/Button"
-import {motion} from "framer-motion"
 import links from "../links"
 
 const Menu = styled.div`
@@ -9,30 +8,30 @@ const Menu = styled.div`
     height: 40px;
     display: flex;
     justify-content: space-between;
-    margin: 3px 2%;
+    margin: 3px 50px;
 
     @media (max-width: 768px) {
         height: 26px;
-        margin: 3px 1%;
+        margin: 3px 35px;
     }
 `
 
-const Section = styled(motion.div)`
-    display: flex;
-`
+// const Section = styled.div`
+//     display: flex;
+// `
 
 export default function Header() {
   return (
     <Menu>
-        <Socials/>
-        <Section>
+        {/* <Socials/>
+        <Section> */}
             <Button link={links.signup} delay={1}>
                 SIGN UP
             </Button>
             <Button link={links.login} delay={1}>
                 LOGIN
             </Button>
-        </Section>
+        {/* </Section> */}
     </Menu>
   )
 }

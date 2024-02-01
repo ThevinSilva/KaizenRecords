@@ -1,5 +1,5 @@
 import Title from './Title';
-import svg from '../assets/enso.svg';
+import svg from '../assets/enso.png';
 import styled from 'styled-components';
 
 
