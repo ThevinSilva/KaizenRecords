@@ -15,19 +15,21 @@ const Word = styled(motion.span)`
 
 const Character = styled(motion.span)`
   display: inline-block;
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
   /* margin-right: -0.05em; */
 `;
 
 // eslint-disable-next-line react/prop-types
-export default function AnimatedTitle({children, delay, stagger, offset}) {
-  const text = String(children) // This would normally be passed into this component as a prop!
+export default function AnimatedTitle({ children, delay, stagger, offset }) {
+  const text = String(children); // This would normally be passed into this component as a prop!
   const ctrls = useAnimation();
-  
+
   const { ref, inView } = useInView({
     threshold: 0.5,
     triggerOnce: true,
   });
-  
+
   useEffect(() => {
     if (inView) {
       ctrls.start("visible");
@@ -36,12 +38,12 @@ export default function AnimatedTitle({children, delay, stagger, offset}) {
       ctrls.start("hidden");
     }
   }, [ctrls, inView]);
-  
+
   const wordAnimation = {
     hidden: {},
     visible: {},
   };
-  
+
   const characterAnimation = {
     hidden: {
       opacity: 0,
@@ -53,11 +55,10 @@ export default function AnimatedTitle({children, delay, stagger, offset}) {
       transition: {
         duration: 1,
         ease: [0.2, 0.65, 0.3, 0.9],
-        
       },
     },
   };
-  
+
   return (
     <Title aria-label={text} role="heading">
       {text.split(" ").map((word, index) => {
@@ -70,7 +71,7 @@ export default function AnimatedTitle({children, delay, stagger, offset}) {
             animate={ctrls}
             variants={wordAnimation}
             transition={{
-              delayChildren: index * delay,
+              delayChildren: index * delay + delay,
               staggerChildren: stagger,
             }}
           >

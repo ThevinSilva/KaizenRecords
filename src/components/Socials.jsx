@@ -1,9 +1,9 @@
-import { FaTwitter, FaDiscord, FaInstagram } from 'react-icons/fa'
-import styled from 'styled-components'
-import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
-import { useMediaQuery } from 'react-responsive'
-import links from '../links'
+import { FaTwitter, FaDiscord, FaInstagram } from "react-icons/fa";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
+import links from "../links";
 
 const SocialLink = styled(motion.a)`
   margin: 0 10px;
@@ -22,18 +22,21 @@ const LINKS = (size) => [
   { icon: <FaInstagram size={size} />, url: links.instagram },
 ];
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.2, // Stagger the child animations
+const containerVariants = (delay) => {
+  return {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2, // Stagger the child animations
+        delayChildren: delay,
+      },
     },
-  },
+  };
 };
 
 const itemVariants = {
-  hidden: { y: 50, x:-40, opacity:0 },
+  hidden: { y: 50, x: -40, opacity: 0 },
   visible: {
     y: 0,
     x: 0,
@@ -45,15 +48,21 @@ const itemVariants = {
   },
 };
 
-const Socials = () => {
-  const [isDesktop , setIsDesktop] = useState(false)
-  const desktop = useMediaQuery({ query : "(min-width : 768px)"})
+// eslint-disable-next-line react/prop-types
+const Socials = ({ delay }) => {
+  const [isDesktop, setIsDesktop] = useState(false);
+  const desktop = useMediaQuery({ query: "(min-width : 768px)" });
 
   useEffect(() => {
-    setIsDesktop(desktop) 
-  },[desktop])
+    setIsDesktop(desktop);
+  }, [desktop]);
   return (
-    <SocialsContainer as={motion.div} initial="hidden" animate="visible" variants={containerVariants}>
+    <SocialsContainer
+      as={motion.div}
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants(delay)}
+    >
       {LINKS(isDesktop ? 30 : 20).map(({ icon, url }, index) => (
         <SocialLink
           key={index}
@@ -62,10 +71,13 @@ const Socials = () => {
           rel="noopener noreferrer"
           variants={itemVariants}
           whileHover={{
-            scale:1.1,
+            scale: 1.1,
             color: "#ca0e25",
           }}
-          whileTap={{ scale: 0.9 }}
+          whileTap={{
+            scale: 0.9,
+            color: "#ca0e25",
+          }}
         >
           {icon}
         </SocialLink>
