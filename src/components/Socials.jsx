@@ -17,9 +17,9 @@ const SocialsContainer = styled.div`
 `;
 
 const LINKS = (size) => [
-  { icon: <FaTwitter size={size} />, url: links.twitter },
-  { icon: <FaDiscord size={size} />, url: links.discord },
   { icon: <FaInstagram size={size} />, url: links.instagram },
+  { icon: <FaDiscord size={size} />, url: links.discord },
+  { icon: <FaTwitter size={size} />, url: links.twitter },
 ];
 
 const containerVariants = (delay) => {

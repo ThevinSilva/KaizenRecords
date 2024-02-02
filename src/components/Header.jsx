@@ -25,11 +25,11 @@ export default function Header() {
     <Menu>
       {/* <Socials/>
         <Section> */}
-      <Button link={links.signup} delay={1}>
-        SIGNUP
-      </Button>
       <Button link={links.login} delay={1}>
         LOGIN
+      </Button>
+      <Button link={links.signup} delay={1}>
+        SIGNUP
       </Button>
       {/* </Section> */}
     </Menu>
