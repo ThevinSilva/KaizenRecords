@@ -1,4 +1,4 @@
-import { FaTwitter, FaDiscord, FaInstagram } from "react-icons/fa";
+import { FaTwitter, FaDiscord, FaInstagram, FaSpotify } from "react-icons/fa";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
@@ -20,6 +20,7 @@ const LINKS = (size) => [
   { icon: <FaInstagram size={size} />, url: links.instagram },
   { icon: <FaDiscord size={size} />, url: links.discord },
   { icon: <FaTwitter size={size} />, url: links.twitter },
+  { icon: <FaSpotify size={size} />, url: links.spotify },
 ];
 
 const containerVariants = (delay) => {
@@ -35,18 +36,21 @@ const containerVariants = (delay) => {
   };
 };
 
-const itemVariants = {
-  hidden: { y: 50, x: -40, opacity: 0 },
+const itemVariants = (offset=2) => {
+  return {
+  hidden: {
+    opacity: 0,
+    x: `-${offset}em`,
+  },
   visible: {
-    y: 0,
-    x: 0,
     opacity: 1,
+    x: `0em`,
     transition: {
-      type: "ease",
-      duration: 0.5,
+      duration: 1,
+      ease: [0.2, 0.65, 0.3, 0.9],
     },
   },
-};
+}}
 
 // eslint-disable-next-line react/prop-types
 const Socials = ({ delay }) => {
@@ -69,7 +73,7 @@ const Socials = ({ delay }) => {
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          variants={itemVariants}
+          variants={itemVariants()}
           whileHover={{
             scale: 1.1,
             color: "#ca0e25",

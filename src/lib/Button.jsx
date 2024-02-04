@@ -63,7 +63,7 @@ export default function Button({ link, delay, children }) {
       // onHoverStart={() => setHover(true)}
       // onHoverEnd={() => setHover(false)}
     >
-      <TextStaggerAnimation delay={1} stagger={0.1} offset={0.2}>
+      <TextStaggerAnimation delay={1} stagger={0.1} offset={2}>
         {children}
       </TextStaggerAnimation>
       {/* <Slide
