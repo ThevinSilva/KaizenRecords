@@ -11,6 +11,7 @@ const SocialLink = styled(motion.a)`
 `;
 
 const SocialsContainer = styled.div`
+  position: relative;
   display: flex;
   /* justify-content: center; */
   align-items: center;
@@ -36,21 +37,22 @@ const containerVariants = (delay) => {
   };
 };
 
-const itemVariants = (offset=2) => {
+const itemVariants = (offset = 2) => {
   return {
-  hidden: {
-    opacity: 0,
-    x: `-${offset}em`,
-  },
-  visible: {
-    opacity: 1,
-    x: `0em`,
-    transition: {
-      duration: 1,
-      ease: [0.2, 0.65, 0.3, 0.9],
+    hidden: {
+      opacity: 0,
+      x: `-${offset}em`,
     },
-  },
-}}
+    visible: {
+      opacity: 1,
+      x: `0em`,
+      transition: {
+        duration: 1,
+        ease: [0.2, 0.65, 0.3, 0.9],
+      },
+    },
+  };
+};
 
 // eslint-disable-next-line react/prop-types
 const Socials = ({ delay }) => {

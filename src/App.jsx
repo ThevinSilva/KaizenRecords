@@ -1,11 +1,13 @@
-import {styled , ThemeProvider} from "styled-components";
-import theme from './theme.js';
-import './styles.css'
+import { styled, ThemeProvider } from "styled-components";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import theme from "./theme.js";
+import "./styles.css";
 
-import Hero from './components/Hero.jsx'
-import Header from "./components/Header.jsx"
-import Background from "./components/Background.jsx"
-import Footer from './components/Footer.jsx'
+import Hero from "./components/Hero.jsx";
+import Header from "./components/Header.jsx";
+import Background from "./components/Background.jsx";
+import Footer from "./components/Footer.jsx";
+import About from "./components/About.jsx";
 
 const Centered = styled.div`
   position: absolute;
@@ -18,18 +20,28 @@ const Centered = styled.div`
   overflow: hidden;
 `;
 
-function App() {
+const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <Background/>
-        <Header/>
-          <Centered>
-            <Hero/>
-            {/* <ScrollDownIndicator/> */}
-          </Centered>
-      <Footer/>
+      <Router>
+        <Background />
+        <Header />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Centered>
+                <Hero />
+              </Centered>
+            }
+          />
+          <Route path="/about" element={<About />} />
+          {/* Define more routes as needed */}
+        </Routes>
+        <Footer />
+      </Router>
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;
