@@ -1,4 +1,4 @@
-import { FaTwitter, FaDiscord, FaInstagram, FaSpotify } from "react-icons/fa";
+import { FaDiscord, FaInstagram, FaSpotify, FaTiktok } from "react-icons/fa";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
@@ -20,7 +20,7 @@ const SocialsContainer = styled.div`
 const LINKS = (size) => [
   { icon: <FaInstagram size={size} />, url: links.instagram },
   { icon: <FaDiscord size={size} />, url: links.discord },
-  { icon: <FaTwitter size={size} />, url: links.twitter },
+  { icon: <FaTiktok size={size} />, url: links.tiktok },
   { icon: <FaSpotify size={size} />, url: links.spotify },
 ];
 
