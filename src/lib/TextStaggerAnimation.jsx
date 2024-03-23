@@ -11,7 +11,7 @@ const Title = styled.h2`
 const Word = styled(motion.span)`
   display: inline-block;
   margin-right: 0.25em;
-  white-space: nowrap;
+  /* white-space: nowrap; */
 `;
 
 const Character = styled(motion.span)`
@@ -22,8 +22,8 @@ const Character = styled(motion.span)`
 
 export default function AnimatedTitle({
   children,
-  delay = 0.2,
-  stagger = 0.1,
+  delay = 0.12,
+  stagger = 0.2,
   offset = 1,
 }) {
   const text = String(children);
