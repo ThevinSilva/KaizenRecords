@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import GameManager from "../lib/game/game";
 import { motion } from "framer-motion"; // score board
 // leader board using mongodb ?
@@ -34,11 +34,11 @@ const Container = styled.div`
 export default function About() {
   const isDesktop = useMediaQuery({ query: "(min-width : 768px)" });
   const ref = useRef(null);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     const canvas = ref.current;
-    const gameManager = new GameManager(canvas);
-    gameManager.gameLoop();
+    const gameManager = new GameManager(canvas, setScore);
 
     // Desktop listener
     // document.addEventListener("keydown");
@@ -56,6 +56,7 @@ export default function About() {
       wrapText={true}
       minSize={"4em"}
     >
+      <h2>Score : {score}</h2>
       <canvas ref={ref} />
     </Container>
   );

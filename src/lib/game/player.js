@@ -1,5 +1,5 @@
 export default class Player {
-  static JUMPPOWER = -10;
+  static JUMPPOWER = -13;
   static GRAVITY = 0.5;
 
   constructor(game) {
@@ -24,7 +24,7 @@ export default class Player {
       this.y = this.game.height - this.height; // Adjust player position to ground level
       this.vy = 0; // Stop moving vertically
       this.onGround = true; // Player is on the ground
-    }
+    } else this.onGround = false;
   }
 
   draw(context) {

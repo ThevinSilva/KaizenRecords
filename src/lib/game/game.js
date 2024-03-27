@@ -1,7 +1,7 @@
 import Player from "./player";
 
 export default class GameManager {
-  constructor(canvas, height = 500, width = 500) {
+  constructor(canvas, setScore, height = 500, width = 1000) {
     this.canvas = canvas;
     this.height = height;
     this.width = width;
@@ -11,8 +11,15 @@ export default class GameManager {
     this._lastRenderTime = 0;
     this.targetFPS = 60; // Target frame rate
     this.player = new Player(this); // Assume this passes the necessary game context or settings
+    this._interval = 0;
+    // set react states
+    this.setScore = setScore;
     this._start();
   }
+
+  // score() {
+  //   return ;
+  // }
 
   // Starts the game loop
   _start() {
@@ -20,8 +27,14 @@ export default class GameManager {
   }
 
   update(deltaTime) {
-    // Update the player's state based on deltaTime
     this.player.update();
+
+    if (this._interval >= 0.5) {
+      this.setScore((prevScore) => prevScore + 1);
+      this._interval = 0;
+    }
+    this._interval += deltaTime;
+
     // Add here any other game entities' update logic
   }
 
