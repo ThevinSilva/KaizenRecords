@@ -1,7 +1,11 @@
 import styled from "styled-components";
-import TextStaggerAnimation from "../lib/TextStaggerAnimation";
 import { useMediaQuery } from "react-responsive";
-import { Textfit } from "new-react-textfit";
+import { useEffect, useRef } from "react";
+import GameManager from "../lib/game/game";
+import { motion } from "framer-motion"; // score board
+// leader board using mongodb ?
+
+// GAME PLAN
 
 const Container = styled.div`
   position: absolute;
@@ -16,17 +20,29 @@ const Container = styled.div`
   color: ${(props) => props.theme.colors.dark};
   z-index: 100;
 
-  div > div > h2 {
-    margin: 0 0 20px 0;
-    width: 100%;
-    height: 40%;
-    text-align: left;
-    word-wrap: break-word; // Prevents overflow by breaking long words
+  canvas {
+    border: 1px solid black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    max-height: 100%;
   }
 `;
 
 export default function About() {
   const isDesktop = useMediaQuery({ query: "(min-width : 768px)" });
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const canvas = ref.current;
+    const gameManager = new GameManager(canvas);
+    gameManager.gameLoop();
+
+    // Desktop listener
+    // document.addEventListener("keydown");
+  }, []);
 
   return (
     <Container
@@ -38,17 +54,9 @@ export default function About() {
         transition: { duration: 1 },
       }}
       wrapText={true}
+      minSize={"4em"}
     >
-      <Textfit style={{ height: "100%", width: "100%" }} mode="multi">
-        <TextStaggerAnimation>
-          Rooted in the Japanese philosophy of KAIZEN (改善) meaning 'continuous
-          improvement'.
-        </TextStaggerAnimation>
-        <TextStaggerAnimation>
-          High-performance marketing. Full ownership rights for artists. No
-          Bullsh*t.
-        </TextStaggerAnimation>
-      </Textfit>
+      <canvas ref={ref} />
     </Container>
   );
 }

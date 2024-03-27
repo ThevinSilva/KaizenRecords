@@ -8,6 +8,7 @@ import Header from "./components/Header.jsx";
 import Background from "./components/Background.jsx";
 import Footer from "./components/Footer.jsx";
 import About from "./components/About.jsx";
+import Secret from "./components/Secret.jsx";
 
 const Centered = styled.div`
   position: absolute;
@@ -36,6 +37,7 @@ const App = () => {
             }
           />
           <Route path="/about" element={<About />} />
+          <Route path="/secret" element={<Secret />} />
           {/* Define more routes as needed */}
         </Routes>
         <Footer />
