@@ -1,4 +1,5 @@
 import Player from "./player";
+import Background from "./background";
 
 export default class GameManager {
   constructor(canvas, setScore, height = 500, width = 1000) {
@@ -10,24 +11,23 @@ export default class GameManager {
     this.context = this.canvas.getContext("2d");
     this._lastRenderTime = 0;
     this.targetFPS = 60; // Target frame rate
+
+    // Game Entities
     this.player = new Player(this); // Assume this passes the necessary game context or settings
+    this.background = new Background(this);
     this._interval = 0;
     // set react states
     this.setScore = setScore;
     this._start();
   }
 
-  // score() {
-  //   return ;
-  // }
-
-  // Starts the game loop
   _start() {
     requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
   }
 
   update(deltaTime) {
     this.player.update();
+    this.background.update();
 
     if (this._interval >= 0.5) {
       this.setScore((prevScore) => prevScore + 1);
@@ -40,7 +40,10 @@ export default class GameManager {
 
   render() {
     this.context.clearRect(0, 0, this.width, this.height); // Clear the canvas for fresh drawing
-    this.player.draw(this.context); // Draw the player on the canvas
+    this.background.draw();
+    this.player.draw();
+
+    // Draw the player on the canvas
     // Here you would also draw other game entities
   }
 
