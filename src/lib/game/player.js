@@ -4,26 +4,30 @@ export default class Player extends Entity {
   static JUMPPOWER = -13;
   static GRAVITY = 0.5;
 
-  constructor(game) {
-    super(); // Assuming Entity's constructor doesn't need `game`, adjust if necessary
+  constructor(
+    game,
+    src = {
+      run: { src: "./Run.png", frames: 8 },
+      jump: { src: "./Jump.png", frames: 2 },
+      idle: { src: "./Idle.png", frames: 8 },
+      death: { src: "./Death.png", frames: 6 },
+    }
+  ) {
+    super(src); // Assuming Entity's constructor doesn't need `game`, adjust if necessary
+    this.width = 200;
+    this.height = 103;
     this.game = game;
+    this.x = Math.floor(game.width / 2) - Math.floor(this.width / 2);
     this.y = 100;
     this.vy = 0; // Vertical velocity
     this.onGround = false;
     this.frameCounter = 0; // For controlling animation speed
+    this.currentState = "run"; // Default state
+    this.currentFrame = 0;
 
-    // Load and initialize the run animation image
-    this.runImage = new Image();
-    this.runImage.src = "./Run.png";
-    this.runImage.onload = () => {
-      this.width = this.runImage.width / 8; // Assuming 7 frames
-      this.height = 103; // Assuming height is known
-      this.totalFrames = 8;
-      this.currentFrame = 0;
-      // Position player in the middle of the game area
-      this.x = Math.floor(game.width / 2) - Math.floor(this.width / 2);
-    };
-
+    this.preload().then(() => {
+      this.ready = true; // Ensure we only start drawing/animating once images are loaded
+    });
     this._input();
   }
 
@@ -31,6 +35,7 @@ export default class Player extends Entity {
     // Apply gravity
     this.vy += Player.GRAVITY;
     this.y += this.vy;
+    // console.log(this.states);
 
     // Check ground collision
     if (
@@ -41,6 +46,7 @@ export default class Player extends Entity {
         this.game.height - this.height - this.game.background.layers[5].height;
       this.vy = 0;
       this.onGround = true;
+      this.currentState = "run";
     } else {
       this.onGround = false;
     }
@@ -48,16 +54,22 @@ export default class Player extends Entity {
     // Animation frame control
     this.frameCounter = (this.frameCounter + 1) % 5; // Change 10 to adjust speed
     if (this.frameCounter === 0) {
-      this.currentFrame = (this.currentFrame + 1) % this.totalFrames;
+      this.currentFrame =
+        (this.currentFrame + 1) % this.states[this.currentState].frames;
     }
   }
 
   draw() {
-    if (!this.runImage) return; // Guard in case image hasn't loaded yet
+    if (!this.ready) return; // Ensure we don't try to draw before images are loaded
 
-    const frameX = this.currentFrame * this.width;
+    const state = this.states[this.currentState];
+    if (!state || !state.image) return; // Guard in case state or image isn't properly defined
+
+    const frameWidth = state.image.width / state.frames;
+    const frameX = this.currentFrame * frameWidth;
+
     this.game.context.drawImage(
-      this.runImage,
+      state.image,
       frameX,
       20,
       this.width,
@@ -73,6 +85,7 @@ export default class Player extends Entity {
     if (this.onGround) {
       this.vy = Player.JUMPPOWER;
       this.onGround = false; // Fix typo here (was `this.isOnGround`)
+      this.currentState = "jump";
     }
   }
 
