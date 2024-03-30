@@ -55,8 +55,6 @@ export default function About() {
     const canvas = ref.current;
     const gameManager = new GameManager(canvas, setScore);
 
-    // Desktop listener
-    // document.addEventListener("keydown");
   }, []);
 
   return (

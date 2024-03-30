@@ -1,48 +1,83 @@
 export default class Background {
+
+// Dummy Data 
+
   constructor(game) {
     this.game = game;
     // Define layers for the parallax effect
     this.layers = [
       {
-        src: "./plx-1.png",
-        speed: -2,
+        src: "./back.png",
+        speed: 0,
         x: 0,
         img: new Image(),
         width: 0,
         height: 0,
       },
       {
-        src: "./plx-2.png",
-        speed: -3,
+        src: "./sun_layer_2.png",
+        speed: 0,
         x: 0,
         img: new Image(),
         width: 0,
         height: 0,
       },
       {
-        src: "./plx-3.png",
-        speed: -4,
+        src: "./slow_clouds_MOVING_layer_3.png",
+        speed: -0.25,
         x: 0,
         img: new Image(),
         width: 0,
         height: 0,
       },
       {
-        src: "./plx-4.png",
-        speed: -5,
-        x: 0,
-        img: new Image(),
-        width: 0,
-        height: 0,
-      }, // The ground layer
-      {
-        src: "./plx-5.png",
-        speed: -5,
+        src: "./fuji_san_layer_4.png",
+        speed: 0,
         x: 0,
         img: new Image(),
         width: 0,
         height: 0,
       },
+      // {
+      //   src: "./plx-1.png",
+      //   speed: -2,
+      //   x: 0,
+      //   img: new Image(),
+      //   width: 0,
+      //   height: 0,
+      // },
+      // {
+      //   src: "./plx-2.png",
+      //   speed: -3,
+      //   x: 0,
+      //   img: new Image(),
+      //   width: 0,
+      //   height: 0,
+      // },
+      // {
+      //   src: "./plx-3.png",
+      //   speed: -4,
+      //   x: 0,
+      //   img: new Image(),
+      //   width: 0,
+      //   height: 0,
+      // },
+      // {
+      //   src: "./plx-4.png",
+      //   speed: -5,
+      //   x: 0,
+      //   img: new Image(),
+      //   width: 0,
+      //   height: 0,
+      // }, // The ground layer
+      // {
+      //   src: "./plx-5.png",
+      //   speed: -5,
+      //   x: 0,
+      //   img: new Image(),
+      //   width: 0,
+      //   height: 0,
+      // },
       {
         src: "./ground.png",
         speed: -1,

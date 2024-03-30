@@ -10,7 +10,7 @@ export default class GameManager {
     this.canvas.width = width;
     this.context = this.canvas.getContext("2d");
     this._lastRenderTime = 0;
-    this.targetFPS = 60; // Target frame rate
+    this.targetFPS = 120; // Target frame rate
 
     // Game Entities
     this.player = new Player(this); // Assume this passes the necessary game context or settings

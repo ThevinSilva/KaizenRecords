@@ -31,6 +31,11 @@ export default class Player extends Entity {
     this._input();
   }
 
+  // Utility to find ground layer 
+  static findGroundHeight(layers){
+    return layers.find(layer => layer.src.toLowerCase().includes('ground')).height
+  }
+
   update() {
     // Apply gravity
     this.vy += Player.GRAVITY;
@@ -40,10 +45,10 @@ export default class Player extends Entity {
     // Check ground collision
     if (
       this.y >=
-      this.game.height - this.height - this.game.background.layers[5].height
+      this.game.height - this.height - Player.findGroundHeight(this.game.background.layers)
     ) {
       this.y =
-        this.game.height - this.height - this.game.background.layers[5].height;
+        this.game.height - this.height - Player.findGroundHeight(this.game.background.layers);
       this.vy = 0;
       this.onGround = true;
       this.currentState = "run";
