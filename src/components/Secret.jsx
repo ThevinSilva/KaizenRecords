@@ -2,19 +2,16 @@ import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 import { useEffect, useRef, useState } from "react";
 import GameManager from "../lib/game/game";
-import { motion } from "framer-motion"; // score board
-import Odometer from "react-odometerjs";
+
+// Game UI 
+import Stats from "./game/Stats"
+
 // leader board using mongodb ?
 
 // GAME PLAN
 
 // UTILS
 
-const leadingZeroes = (val, digits) => {
-  const str = val.toString();
-  if (digits <= str.length) return str;
-  return "0".repeat(digits - str.length) + val.toString();
-};
 
 const Container = styled.div`
   position: absolute;
@@ -39,21 +36,52 @@ const Container = styled.div`
     max-height: 100%;
   }
 
-  .odometer-value {
-    /* text-align: center; */
-    font-family: Roboto;
-    font-weight: 400;
-  }
 `;
+
+const GameUI = styled.div`
+    /* border: 1px solid black; */
+    position: absolute;
+    width : ${props => props.canvasSize.width}px;
+    height : ${props => props.canvasSize.height}px;
+    color: white;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 100%;
+    /* max-height: 100%; */
+   z-index: 100;
+`
 
 export default function About() {
   const isDesktop = useMediaQuery({ query: "(min-width : 768px)" });
   const ref = useRef(null);
   const [score, setScore] = useState(0);
+  const [canvasSize, setCanvasSize] = useState({ width: 1000, height: 500 });
+  
 
   useEffect(() => {
     const canvas = ref.current;
     const gameManager = new GameManager(canvas, setScore);
+    
+
+    const updateCanvasSize = () => {
+      if (canvas) {
+        setCanvasSize({
+          width: canvas.clientWidth,
+          height: canvas.clientHeight
+        });
+      }
+    };
+
+    updateCanvasSize(); // Initial update
+
+    // Adjust canvas size on window resize
+    window.addEventListener('resize', updateCanvasSize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', updateCanvasSize);
+
+    
 
   }, []);
 
@@ -69,10 +97,10 @@ export default function About() {
       wrapText={true}
       minSize={"4em"}
     >
-      <h2>
-        {leadingZeroes(score, 5)}
+      <GameUI canvasSize={canvasSize}>
+        <Stats score={score}/>
         {/* NOTE : odometer needs leading zeroes and flash a few times on the screen every certain mile stone */}
-      </h2>
+      </GameUI>
 
       <canvas ref={ref} />
     </Container>

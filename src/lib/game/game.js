@@ -18,10 +18,10 @@ export default class GameManager {
     this._interval = 0;
     // set react states
     this.setScore = setScore;
-    this._start();
+    this.start()
   }
 
-  _start() {
+  start() {
     requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
   }
 
@@ -29,7 +29,7 @@ export default class GameManager {
     this.player.update();
     this.background.update();
 
-    if (this._interval >= 0.5) {
+    if (this._interval >= 0.25) {
       this.setScore((prevScore) => prevScore + 1);
       this._interval = 0;
     }
