@@ -31,9 +31,12 @@ export default class Player extends Entity {
     this._input();
   }
 
-  // Utility to find ground layer 
-  static findGroundHeight(layers){
-    return layers.find(layer => layer.src.toLowerCase().includes('ground')).height
+  // Utility to find ground layer
+  static findGroundHeight(layers) {
+    return (
+      layers.find((layer) => layer.src.toLowerCase().includes("ground"))
+        .height && 46
+    );
   }
 
   update() {
@@ -45,10 +48,14 @@ export default class Player extends Entity {
     // Check ground collision
     if (
       this.y >=
-      this.game.height - this.height - Player.findGroundHeight(this.game.background.layers)
+      this.game.height -
+        this.height -
+        Player.findGroundHeight(this.game.background.layers)
     ) {
       this.y =
-        this.game.height - this.height - Player.findGroundHeight(this.game.background.layers);
+        this.game.height -
+        this.height -
+        Player.findGroundHeight(this.game.background.layers);
       this.vy = 0;
       this.onGround = true;
       this.currentState = "run";
@@ -57,7 +64,7 @@ export default class Player extends Entity {
     }
 
     // Animation frame control
-    this.frameCounter = (this.frameCounter + 1) % 5; // Change 10 to adjust speed
+    this.frameCounter = (this.frameCounter + 1) % 10; // Change 10 to adjust speed
     if (this.frameCounter === 0) {
       this.currentFrame =
         (this.currentFrame + 1) % this.states[this.currentState].frames;

@@ -18,7 +18,7 @@ export default class GameManager {
     this._interval = 0;
     // set react states
     this.setScore = setScore;
-    this.start()
+    this.start();
   }
 
   start() {
@@ -29,7 +29,7 @@ export default class GameManager {
     this.player.update();
     this.background.update();
 
-    if (this._interval >= 0.25) {
+    if (this._interval >= 0.5) {
       this.setScore((prevScore) => prevScore + 1);
       this._interval = 0;
     }
