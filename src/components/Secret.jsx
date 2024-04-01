@@ -7,12 +7,16 @@ import { FaPause } from "react-icons/fa";
 // Game UI
 import Stats from "./game/Stats";
 import Pause from "./game/Pause";
+import Title from "./game/Title";
 
 // leader board using mongodb ?
 
 // GAME PLAN
 
 // UTILS
+
+const togglePause = (setState) =>
+  setState((state) => (state === "paused" ? "running" : "paused"));
 
 const Container = styled.div`
   position: absolute;
@@ -71,13 +75,12 @@ export default function About() {
   const cavasRef = useRef(null);
   const gameManagerRef = useRef(null);
   const [score, setScore] = useState(0);
-  const [state, setState] = useState("running"); //game state
+  const [state, setState] = useState("title"); //game state
   const [canvasSize, setCanvasSize] = useState({ width: 1000, height: 500 });
 
   useEffect(() => {
     const canvas = cavasRef.current;
     gameManagerRef.current = new GameManager(canvas, setScore);
-    gameManagerRef.current.start();
     const updateCanvasSize = () => {
       if (canvas) {
         setCanvasSize({
@@ -87,7 +90,7 @@ export default function About() {
       }
     };
 
-    updateCanvasSize(); // Initial update
+    updateCanvasSize();
 
     // Adjust canvas size on window resize
     window.addEventListener("resize", updateCanvasSize);
@@ -101,8 +104,10 @@ export default function About() {
       case "paused":
         gameManagerRef.current.pause();
         break;
-      default: // running
-        gameManagerRef.current.pause();
+      case "running":
+        gameManagerRef.current.start();
+        if (gameManagerRef.current.player.paused)
+          gameManagerRef.current.pause();
     }
   }, [state]);
 
@@ -118,14 +123,22 @@ export default function About() {
       wrapText={true}
       minSize={"4em"}
     >
+      {state}
       <GameUI canvasSize={canvasSize}>
-        <Button
-          onClick={() => setState(state === "paused" ? "running" : "paused")}
-        >
-          <FaPause />
-        </Button>
-        <Stats score={score} />
-        {state === "paused" || <Pause setState={setState} />}
+        {state === "running" && (
+          <>
+            {" "}
+            <Button onClick={() => togglePause(setState)}>
+              <FaPause />
+            </Button>{" "}
+            <Stats score={score} />{" "}
+          </>
+        )}
+        {state === "paused" && <Pause setState={setState} />}
+        {state === "title" && (
+          <Title setState={setState} gameManagerRef={gameManagerRef} />
+        )}
+
         {/* NOTE : odometer needs leading zeroes and flash a few times on the screen every certain mile stone */}
       </GameUI>
 

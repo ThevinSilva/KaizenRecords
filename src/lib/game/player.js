@@ -69,6 +69,8 @@ export default class Player extends Entity {
       this.onGround = false;
     }
 
+    if (!this.game.running) this.currentState = "idle";
+
     // Animation frame control
     this.frameCounter = (this.frameCounter + 1) % 5; // Change 10 to adjust speed
     if (this.frameCounter === 0) {
@@ -100,7 +102,7 @@ export default class Player extends Entity {
   }
 
   jump() {
-    if (this.onGround && !this.paused) {
+    if (this.onGround && !this.paused && this.game.running) {
       this.vy = Player.JUMPPOWER;
       this.onGround = false; // Fix typo here (was `this.isOnGround`)
       this.currentState = "jump";

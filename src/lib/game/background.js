@@ -32,6 +32,7 @@ export default class Background {
       {
         src: "./ground_2.png",
         speed: -1,
+        floor: true,
         x: 0,
         img: new Image(),
         width: 0,
@@ -54,7 +55,7 @@ export default class Background {
     this.layers.forEach((layer) => {
       if (layer.speed !== 0) {
         // Only update layers that move
-        layer.x += layer.speed;
+        layer.x += layer.floor && !this.game.running ? 0 : layer.speed;
         if (layer.width > 0) {
           layer.x %= layer.width; // Seamless looping
         }

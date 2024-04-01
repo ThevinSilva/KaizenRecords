@@ -19,15 +19,15 @@ const Character = styled(motion.span)`
 `;
 
 // eslint-disable-next-line react/prop-types
-export default function AnimatedTitle({children, delay, stagger}) {
-  const text = String(children) // This would normally be passed into this component as a prop!
+export default function AnimatedTitle({ children, delay, stagger }) {
+  const text = String(children); // This would normally be passed into this component as a prop!
   const ctrls = useAnimation();
-  
+
   const { ref, inView } = useInView({
     threshold: 0.5,
     triggerOnce: true,
   });
-  
+
   useEffect(() => {
     if (inView) {
       ctrls.start("visible");
@@ -36,28 +36,27 @@ export default function AnimatedTitle({children, delay, stagger}) {
       ctrls.start("hidden");
     }
   }, [ctrls, inView]);
-  
+
   const wordAnimation = {
     hidden: {},
     visible: {},
   };
-  
+
   const characterAnimation = {
     hidden: {
       opacity: 0,
-      scale: 0,
+      y: 100,
     },
     visible: {
+      y: 0,
       opacity: 1,
-      scale: 1,
       transition: {
         duration: 1,
         ease: [0.2, 0.65, 0.3, 0.9],
-        
       },
     },
   };
-  
+
   return (
     <Title aria-label={text} role="heading">
       {text.split(" ").map((word, index) => {

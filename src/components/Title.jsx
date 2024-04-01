@@ -1,7 +1,5 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
-// import TextStaggeredAnimation from "../lib/TextStaggerAnimation"
-// import TextPopUpAnimation from "../lib/TextPopUpAnimation"
 
 const Text = styled(motion.span)`
   font-family: ${(props) => props.theme.fonts.primary};
