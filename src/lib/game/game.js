@@ -10,26 +10,30 @@ export default class GameManager {
     this.canvas.width = width;
     this.context = this.canvas.getContext("2d");
     this._lastRenderTime = 0;
-    this.targetFPS = 120; // Target frame rate
+    this.targetFPS = 60; // Target frame rate
 
     // Game Entities
-    this.player = new Player(this); // Assume this passes the necessary game context or settings
     this.background = new Background(this);
+    this.player = new Player(this); // Assume this passes the necessary game context or settings
     this._interval = 0;
     // set react states
     this.setScore = setScore;
-    this.start();
   }
 
   start() {
     requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
   }
 
+  pause() {
+    this.player.paused = !this.player.paused;
+    this.background.paused = !this.background.paused;
+  }
+
   update(deltaTime) {
     this.player.update();
     this.background.update();
 
-    if (this._interval >= 0.5) {
+    if (this._interval >= 0.5 && !this.player.paused) {
       this.setScore((prevScore) => prevScore + 1);
       this._interval = 0;
     }
@@ -62,4 +66,6 @@ export default class GameManager {
     this._lastRenderTime = timestamp; // Remember the time of the last render
     requestAnimationFrame((timestamp) => this.gameLoop(timestamp)); // Schedule the next frame
   }
+
+  death() {}
 }

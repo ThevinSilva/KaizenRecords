@@ -38,6 +38,7 @@ export default class Background {
         height: 0,
       },
     ];
+    this.paused = false;
 
     this.layers.forEach((layer) => {
       layer.img.src = layer.src;
@@ -49,6 +50,7 @@ export default class Background {
   }
 
   update() {
+    if (this.paused) return;
     this.layers.forEach((layer) => {
       if (layer.speed !== 0) {
         // Only update layers that move

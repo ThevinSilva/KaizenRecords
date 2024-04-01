@@ -13,17 +13,21 @@ export default class Player extends Entity {
       death: { src: "./Death.png", frames: 6 },
     }
   ) {
-    super(src); // Assuming Entity's constructor doesn't need `game`, adjust if necessary
+    super(src);
     this.width = 200;
     this.height = 103;
     this.game = game;
     this.x = Math.floor(game.width / 2) - Math.floor(this.width / 2);
-    this.y = 100;
+    this.y =
+      this.game.height -
+      this.height -
+      Player.findGroundHeight(this.game.background.layers);
     this.vy = 0; // Vertical velocity
     this.onGround = false;
     this.frameCounter = 0; // For controlling animation speed
-    this.currentState = "run"; // Default state
+    this.currentState = "idle"; // Default state
     this.currentFrame = 0;
+    this.paused = false;
 
     this.preload().then(() => {
       this.ready = true; // Ensure we only start drawing/animating once images are loaded
@@ -40,6 +44,8 @@ export default class Player extends Entity {
   }
 
   update() {
+    if (this.paused) return;
+
     // Apply gravity
     this.vy += Player.GRAVITY;
     this.y += this.vy;
@@ -64,7 +70,7 @@ export default class Player extends Entity {
     }
 
     // Animation frame control
-    this.frameCounter = (this.frameCounter + 1) % 10; // Change 10 to adjust speed
+    this.frameCounter = (this.frameCounter + 1) % 5; // Change 10 to adjust speed
     if (this.frameCounter === 0) {
       this.currentFrame =
         (this.currentFrame + 1) % this.states[this.currentState].frames;
@@ -94,7 +100,7 @@ export default class Player extends Entity {
   }
 
   jump() {
-    if (this.onGround) {
+    if (this.onGround && !this.paused) {
       this.vy = Player.JUMPPOWER;
       this.onGround = false; // Fix typo here (was `this.isOnGround`)
       this.currentState = "jump";
