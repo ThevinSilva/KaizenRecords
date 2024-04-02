@@ -1,20 +1,14 @@
 export default class Background {
   // Dummy Data
 
+  // - Add slower pace for swirly
+
   constructor(game) {
     this.game = game;
     // Define layers for the parallax effect
     this.layers = [
       {
-        src: "./sky.png",
-        speed: 0,
-        x: 0,
-        img: new Image(),
-        width: 0,
-        height: 0,
-      },
-      {
-        src: "./sun.png",
+        src: "./sky_sun.png",
         speed: 0,
         x: 0,
         img: new Image(),
@@ -38,7 +32,56 @@ export default class Background {
         height: 0,
       },
       {
-        src: "./floor.png",
+        src: "./bamboo_3.png",
+        speed: -1,
+        floor: true,
+
+        x: 0,
+        img: new Image(),
+        width: 0,
+        height: 0,
+      },
+      {
+        src: "./bamboo_2.png",
+        speed: -2,
+        floor: true,
+
+        x: 0,
+        img: new Image(),
+        width: 0,
+        height: 0,
+      },
+      {
+        src: "./bamboo_1.png",
+        speed: -3,
+        floor: true,
+
+        x: 0,
+        img: new Image(),
+        width: 0,
+        height: 0,
+      },
+      {
+        src: "./bamboo_fog.png",
+        speed: -0.5,
+        x: 0,
+        img: new Image(),
+        width: 0,
+        height: 0,
+      },
+      {
+        src: "./swirly.png",
+        lowSpeed: -0.5,
+        speed: -3.5,
+        x: 0,
+        img: new Image(),
+        floor: true,
+
+        width: 0,
+        height: 0,
+      },
+      {
+        src: "./trees_floor.png",
         speed: -3,
         floor: true,
         x: 0,
@@ -46,6 +89,15 @@ export default class Background {
         width: 0,
         height: 0,
       },
+
+      // {
+      //   src: "./floor_fog.png",
+      //   speed: -0.5,
+      //   x: 0,
+      //   img: new Image(),
+      //   width: 0,
+      //   height: 0,
+      // },
     ];
     this.paused = false;
 
@@ -63,7 +115,8 @@ export default class Background {
     this.layers.forEach((layer) => {
       if (layer.speed !== 0) {
         // Only update layers that move
-        layer.x += layer.floor && !this.game.running ? 0 : layer.speed;
+        layer.x +=
+          layer.floor && !this.game.running ? layer.lowSpeed || 0 : layer.speed;
         if (layer.width > 0) {
           layer.x %= layer.width; // Seamless looping
         }

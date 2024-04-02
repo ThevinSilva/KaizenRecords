@@ -113,7 +113,7 @@ export default function About() {
         setState("title");
         break;
       case "death":
-        gameManagerRef.current.pause();
+        // gameManagerRef.current.pause();
         break;
       case "running":
         gameManagerRef.current.start();

@@ -24,7 +24,7 @@ export default class Obstacle extends Entity {
   }
 
   update() {
-    if (this.game.player.paused) return;
+    if (this.game.player.paused || !this.game.running) return;
     this.x += this.speed; // Move obstacle towards the left
     if (this.x + this.width < 0) {
       // If obstacle moves out of the screen, remove it

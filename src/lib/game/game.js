@@ -11,7 +11,7 @@ export default class GameManager {
     this.canvas.width = width;
     this.context = this.canvas.getContext("2d");
     this._lastRenderTime = 0;
-    this.targetFPS = 60; // Target frame rate
+    this.targetFPS = 90; // Target frame rate
     this.running = false;
     this.obstacles = [];
     this.floor = 56;
@@ -143,7 +143,8 @@ export default class GameManager {
 
   death() {
     this.setState("death");
-    this.playing = false;
+    this.player.death = true;
+    this.running = false;
   }
 
   // Input handler
@@ -158,7 +159,7 @@ export default class GameManager {
         if (keycodes.JUMP[keyCode]) {
           if (this.running) this.player.jump();
           else {
-            this.setState("running");
+            if (!this.player.death) this.setState("running");
           }
         }
       });

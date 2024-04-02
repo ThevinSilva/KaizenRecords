@@ -2,6 +2,8 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
+// Sekiro death maybe ?
+
 const Container = styled(motion.div)`
   position: absolute;
   display: flex;
@@ -27,33 +29,102 @@ const Banner = styled(motion.div)`
   -webkit-box-shadow: 0px 0px 39px 44px rgba(0, 0, 0, 0.72);
   -moz-box-shadow: 0px 0px 39px 44px rgba(0, 0, 0, 0.72);
   box-shadow: 0px 0px 39px 44px rgba(0, 0, 0, 0.72);
+  z-index: 50;
+
   span {
     padding-top: -1em;
     font-family: "Times New Roman", Times, serif !important;
   }
 `;
 
+const BlackScreen = styled(motion.div)`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+`;
+
+const Grid = styled(motion.div)`
+  /* position: absolute; */
+  width: 100%;
+  /* height: 100%; */
+  margin: 0 auto;
+  background-color: black;
+  color: white;
+  align-items: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 100;
+`;
+
+const DeathScreen = styled(motion.div)`
+  width: 100%;
+`;
+
+const Button = styled(motion.button)`
+  all: unset;
+  width: 16%;
+  margin: ;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  font-family: "Times New Roman", Times, serif !important;
+`;
+
 export default function Death() {
   return (
     <Container>
-      <Banner
+      <DeathScreen
         initial={{
-          opacity: 0,
+          opacity: 1,
         }}
-        animate={{ opacity: 0.7 }}
-        transition={{ duration: 1 }}
+        animate={{ opacity: 0 }}
+        transition={{ delay: 3, duration: 1 }}
       >
-        <motion.span
+        <Banner
           initial={{
             opacity: 0,
-            scale: 1,
           }}
-          animate={{ opacity: 0.7, scale: 1.4 }}
-          transition={{ delay: 1, duration: 1 }}
+          animate={{ opacity: 0.7 }}
+          transition={{ duration: 1 }}
         >
-          YOU DIED
-        </motion.span>
-      </Banner>
+          <motion.span
+            initial={{
+              opacity: 0,
+              scale: 1,
+            }}
+            animate={{ opacity: 0.7, scale: 1.4 }}
+            transition={{ delay: 1, duration: 1 }}
+          >
+            YOU DIED
+          </motion.span>
+        </Banner>
+      </DeathScreen>
+      <BlackScreen
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 4, duration: 1 }}
+      >
+        <h4>You scored 69420 pts!</h4>
+        <Grid
+          initial={{
+            opacity: 0,
+          }}
+          animate={{ opacity: 0.7 }}
+          transition={{ duration: 2 }}
+        >
+          <Button>Try Again</Button>
+          <Button>Submit Score</Button>
+        </Grid>
+      </BlackScreen>
     </Container>
   );
 }

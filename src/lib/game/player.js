@@ -10,7 +10,7 @@ export default class Player extends Entity {
       run: { src: "./Run.png", frames: 8 },
       jump: { src: "./Jump.png", frames: 2 },
       idle: { src: "./Idle.png", frames: 8 },
-      death: { src: "./Death.png", frames: 6 },
+      death: { src: "./Death.png", frames: 6, noRepeat: true },
       arrow: { src: "./arrow.png", frames: 3 },
     }
   ) {
@@ -25,6 +25,7 @@ export default class Player extends Entity {
     this.hitboxWidth = 25;
     this.hitboxHeight = 50;
     this.paused = false;
+    this.death = false;
 
     this.preload().then(() => {
       this.ready = true;
@@ -49,6 +50,7 @@ export default class Player extends Entity {
     }
 
     if (!this.game.running) this.currentState = "idle";
+    if (this.death) this.currentState = "death";
 
     // Call the inherited method to update animation
     this.updateAnimation();
@@ -71,10 +73,11 @@ export default class Player extends Entity {
     this.y = this.game.height - this.height - this.game.floor;
     this.vy = 0;
     this.currentFrame = 0;
+    this.death = false;
   }
 
   jump() {
-    if (this.onGround && !this.paused) {
+    if (this.onGround && !this.paused && !this.death) {
       this.vy = Player.JUMPPOWER;
       this.onGround = false;
       this.currentState = "jump";

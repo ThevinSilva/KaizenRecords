@@ -27,14 +27,17 @@ export default class Entity {
     this.ready = true;
   }
 
-  updateAnimation() {
+  updateAnimation(speed = 5) {
     if (!this.ready || this.paused) return;
     const state = this.states[this.currentState];
     if (!state || !state.image) return;
 
-    this.frameCounter = (this.frameCounter + 1) % 5; // Change 5 to adjust animation speed
+    this.frameCounter = (this.frameCounter + 1) % speed; // Change 5 to adjust animation speed
     if (this.frameCounter === 0) {
-      this.currentFrame = (this.currentFrame + 1) % state.frames;
+      if (!(state.noRepeat && this.currentFrame >= state.frames - 1)) {
+        // Loop animation or proceed to the next frame as usual
+        this.currentFrame = (this.currentFrame + 1) % state.frames;
+      }
     }
   }
 
