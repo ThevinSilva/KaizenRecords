@@ -141,10 +141,10 @@ export default class Background {
   }
 
   _drawLayer(layer) {
-    const pattern = this.game.context.createPattern(layer.img, "repeat-x"); // Create a pattern to repeat the image
+    const pattern = this.game.context.createPattern(layer.img, "repeat-x");
     this.game.context.fillStyle = pattern;
-    this.game.context.translate(layer.x, this.game.height - layer.height); // Adjust the starting position
-    this.game.context.fillRect(-layer.x, 0, this.game.width, layer.height); // Draw the pattern
-    this.game.context.translate(-layer.x, -(this.game.height - layer.height)); // Reset the translation
+    // No need to translate context back and forth
+    const y = this.game.height - layer.height;
+    this.game.context.fillRect(layer.x, y, this.game.width, layer.height);
   }
 }

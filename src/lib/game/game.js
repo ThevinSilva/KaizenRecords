@@ -153,7 +153,9 @@ export default class GameManager {
     const keycodes = { JUMP: { 38: 1, 32: 1 } }; // For jumping
 
     if (isMobile) {
-      window.addEventListener("touchstart", () => this.jump());
+      window.addEventListener("touchstart", () => {
+        if (this.running) this.player.jump();
+      });
     } else {
       window.addEventListener("keydown", ({ keyCode }) => {
         if (keycodes.JUMP[keyCode]) {
