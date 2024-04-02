@@ -34,10 +34,20 @@ const Highlight = styled(motion.div)`
   border-radius: 5px;
 `;
 
-const options = ["resume", "controls", "restart"];
-
+// eslint-disable-next-line react/prop-types
 export default function Pause({ setState }) {
   const [hovered, setHovered] = useState(null);
+
+  const options = {
+    resume: () => setState("running"),
+    controls: () => {
+      console.log("controls");
+    },
+    restart: () => {
+      setState("reset");
+      // setState("running");
+    },
+  };
 
   return (
     <Container
@@ -47,19 +57,17 @@ export default function Pause({ setState }) {
     >
       <h2>Pause</h2>
       <ul>
-        {options.map((option, i) => (
+        {Object.keys(options).map((key, i) => (
           <Option
-            key={option}
-            onHoverStart={() => setHovered(option)}
+            key={key}
+            onHoverStart={() => setHovered(key)}
             onHoverEnd={() => setHovered(null)}
-            onClick={() =>
-              setState((state) => (state === "paused" ? "running" : "paused"))
-            }
+            onClick={options[key]}
             whileHover={{ scale: 1.1 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            {hovered === option && <Highlight layoutId="active-pill" />}
-            {option}
+            {hovered === key && <Highlight layoutId="active-pill" />}
+            {key}
           </Option>
         ))}
       </ul>

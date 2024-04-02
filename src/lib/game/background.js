@@ -6,7 +6,7 @@ export default class Background {
     // Define layers for the parallax effect
     this.layers = [
       {
-        src: "./backdrop.png",
+        src: "./sky.png",
         speed: 0,
         x: 0,
         img: new Image(),
@@ -14,7 +14,15 @@ export default class Background {
         height: 0,
       },
       {
-        src: "./clouds_2.png",
+        src: "./sun.png",
+        speed: 0,
+        x: 0,
+        img: new Image(),
+        width: 0,
+        height: 0,
+      },
+      {
+        src: "./clouds.png",
         speed: -0.25,
         x: 0,
         img: new Image(),
@@ -22,7 +30,7 @@ export default class Background {
         height: 0,
       },
       {
-        src: "./mountain_2.png",
+        src: "./mountain.png",
         speed: 0,
         x: 0,
         img: new Image(),
@@ -30,8 +38,8 @@ export default class Background {
         height: 0,
       },
       {
-        src: "./ground_2.png",
-        speed: -1,
+        src: "./floor.png",
+        speed: -3,
         floor: true,
         x: 0,
         img: new Image(),
@@ -70,6 +78,13 @@ export default class Background {
         this._drawLayer(layer);
       }
     });
+  }
+
+  // Utility to find ground layer
+  floor() {
+    return this.layers.find((layer) =>
+      layer.src.toLowerCase().includes("floor")
+    );
   }
 
   _drawLayer(layer) {

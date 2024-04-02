@@ -8,12 +8,15 @@ import { FaPause } from "react-icons/fa";
 import Stats from "./game/Stats";
 import Pause from "./game/Pause";
 import Title from "./game/Title";
+import Death from "./game/Death";
 
 // leader board using mongodb ?
 
 // GAME PLAN
 
 // UTILS
+
+// NOTE BUG RESTART NO ANIMATION FRAMES
 
 const togglePause = (setState) =>
   setState((state) => (state === "paused" ? "running" : "paused"));
@@ -80,7 +83,7 @@ export default function About() {
 
   useEffect(() => {
     const canvas = cavasRef.current;
-    gameManagerRef.current = new GameManager(canvas, setScore);
+    gameManagerRef.current = new GameManager(canvas, setScore, setState);
     const updateCanvasSize = () => {
       if (canvas) {
         setCanvasSize({
@@ -102,6 +105,14 @@ export default function About() {
   useEffect(() => {
     switch (state) {
       case "paused":
+        gameManagerRef.current.pause();
+        break;
+      case "reset":
+        gameManagerRef.current.reset();
+        gameManagerRef.current.pause();
+        setState("title");
+        break;
+      case "death":
         gameManagerRef.current.pause();
         break;
       case "running":
@@ -138,6 +149,8 @@ export default function About() {
         {state === "title" && (
           <Title setState={setState} gameManagerRef={gameManagerRef} />
         )}
+
+        {state === "death" && <Death />}
 
         {/* NOTE : odometer needs leading zeroes and flash a few times on the screen every certain mile stone */}
       </GameUI>
