@@ -71,15 +71,41 @@ const DeathScreen = styled(motion.div)`
 
 const Button = styled(motion.button)`
   all: unset;
-  width: 16%;
-  margin: ;
+  width: 10%;
+  margin: 1%;
   font-size: 1rem;
-  display: flex;
-  justify-content: center;
+  display: inline-block;
+  position: relative;
+  color: white;
   font-family: "Times New Roman", Times, serif !important;
+  text-align: center; /* Ensure the text is centered horizontally */
+
+  /* Adding vertical alignment with line-height for potential multiline support */
+  /* Adjust the line-height or use padding for vertical centering if needed */
+
+  /* Using pseudo-element for underline effect */
+  &:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: white; /* Underline color */
+    transform: scaleX(0);
+    transform-origin: bottom right; /* Start the animation from the right */
+    transition: transform 0.25s ease-out; /* Smooth transition for the effect */
+  }
+
+  /* Hover effect */
+  &:hover:after {
+    transform: scaleX(1); /* Scale the underline to full width on hover */
+    transform-origin: bottom left; /* End the animation to the left */
+  }
 `;
 
-export default function Death() {
+// eslint-disable-next-line react/prop-types
+export default function Death({ score, setState }) {
   return (
     <Container>
       <DeathScreen
@@ -113,7 +139,7 @@ export default function Death() {
         animate={{ opacity: 1 }}
         transition={{ delay: 4, duration: 1 }}
       >
-        <h4>You scored 69420 pts!</h4>
+        <h4>You scored {score} pts!</h4>
         <Grid
           initial={{
             opacity: 0,
@@ -121,7 +147,7 @@ export default function Death() {
           animate={{ opacity: 0.7 }}
           transition={{ duration: 2 }}
         >
-          <Button>Try Again</Button>
+          <Button onClick={() => setState("reset")}>Try Again</Button>
           <Button>Submit Score</Button>
         </Grid>
       </BlackScreen>

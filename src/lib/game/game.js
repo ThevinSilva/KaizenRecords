@@ -48,7 +48,7 @@ export default class GameManager {
   update(deltaTime) {
     this.obstacles.forEach((obstacle) => {
       obstacle.update(deltaTime);
-      if (this.player.checkCollision(obstacle, 85, 50)) this.death();
+      if (this.player.checkCollision(obstacle)) this.death();
     });
     this.player.update();
     this.background.update();
@@ -69,7 +69,7 @@ export default class GameManager {
     this.player.draw();
     this.obstacles.forEach((obstacle) => obstacle.draw());
     // this.context.fillStyle = "green";
-    // this.context.fillRect(600, 380, 60, 70);
+    // this.context.fillRect(600, 380, 100, 10);
 
     // const image = new Image();
     // image.src = "./opacity.png";
@@ -82,8 +82,10 @@ export default class GameManager {
 
   spawnObstacle() {
     const spacingProbability = 0.01; // Base probability of spacing between obstacles
-    const minSpacing = 100; // Minimum spacing between obstacles
-    const maxSpacing = 300; // Maximum spacing between obstacles
+    const minSpacing = 300; // Minimum spacing between obstacles
+    const maxSpacing = 600; // Maximum spacing between obstacles
+    const choices = Object.keys(Obstacle.src);
+    const state = choices[Math.floor(Math.random() * choices.length)];
 
     // Check if the last obstacle exists and its x position
     const lastObstacle = this.obstacles[this.obstacles.length - 1];
@@ -98,7 +100,7 @@ export default class GameManager {
 
     // Check if spacing should occur or if a new obstacle should be spawned
     if (spawnSpacing || !lastObstacle) {
-      const obstacle = new Obstacle(this);
+      const obstacle = new Obstacle(this, state);
       this.obstacles.push(obstacle);
     }
 
@@ -106,7 +108,7 @@ export default class GameManager {
     const elapsedTime = performance.now() / 1000; // Convert milliseconds to seconds
     const spawnProbability = Math.min(0.1, elapsedTime / 60); // Increase probability every 60 seconds
     if (Math.random() < spawnProbability) {
-      const obstacle = new Obstacle(this);
+      const obstacle = new Obstacle(this, state);
       this.obstacles.push(obstacle);
     }
   }
@@ -129,7 +131,6 @@ export default class GameManager {
 
     if (Math.random() < 0.005 && this.running) {
       // Adjust the probability as needed
-      console.log("I ran");
       this.spawnObstacle();
     }
 
@@ -143,6 +144,7 @@ export default class GameManager {
 
   death() {
     this.setState("death");
+    if (!this.player.death) this.player.currentFrame = 0;
     this.player.death = true;
     this.running = false;
   }
@@ -159,9 +161,11 @@ export default class GameManager {
     } else {
       window.addEventListener("keydown", ({ keyCode }) => {
         if (keycodes.JUMP[keyCode]) {
-          if (this.running) this.player.jump();
-          else {
-            if (!this.player.death) this.setState("running");
+          if (!this.player.death) {
+            if (this.running) this.player.jump();
+            else {
+              this.setState("running");
+            }
           }
         }
       });

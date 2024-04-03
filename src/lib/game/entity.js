@@ -84,7 +84,7 @@ export default class Entity {
       height, // Assuming all frames have the same height
       x,
       y,
-      width,
+      frameWidth,
       height
     );
   }

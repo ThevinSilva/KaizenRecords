@@ -42,6 +42,8 @@ const Container = styled.div`
     transform: translate(-50%, -50%);
     max-width: 100%;
     max-height: 100%;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
   }
 `;
 
@@ -108,8 +110,9 @@ export default function About() {
         gameManagerRef.current.pause();
         break;
       case "reset":
+        if (!gameManagerRef.current.player.death)
+          gameManagerRef.current.pause();
         gameManagerRef.current.reset();
-        gameManagerRef.current.pause();
         setState("title");
         break;
       case "death":
@@ -150,7 +153,7 @@ export default function About() {
           <Title setState={setState} gameManagerRef={gameManagerRef} />
         )}
 
-        {state === "death" && <Death />}
+        {state === "death" && <Death score={score} setState={setState} />}
 
         {/* NOTE : odometer needs leading zeroes and flash a few times on the screen every certain mile stone */}
       </GameUI>

@@ -53,7 +53,7 @@ export default class Background {
       },
       {
         src: "./bamboo_1.png",
-        speed: -3,
+        speed: -4,
         floor: true,
 
         x: 0,
@@ -69,23 +69,24 @@ export default class Background {
         width: 0,
         height: 0,
       },
+
       {
-        src: "./swirly.png",
-        lowSpeed: -0.5,
-        speed: -3.5,
+        src: "./trees_floor.png",
+        speed: -4,
+        floor: true,
         x: 0,
         img: new Image(),
-        floor: true,
-
         width: 0,
         height: 0,
       },
       {
-        src: "./trees_floor.png",
-        speed: -3,
-        floor: true,
+        src: "./swirly.png",
+        lowSpeed: -0.5,
+        speed: -4.5,
         x: 0,
         img: new Image(),
+        floor: true,
+
         width: 0,
         height: 0,
       },

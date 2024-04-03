@@ -44,6 +44,7 @@ export default function Pause({ setState }) {
       console.log("controls");
     },
     restart: () => {
+      // togglePause(setState);
       setState("reset");
       // setState("running");
     },

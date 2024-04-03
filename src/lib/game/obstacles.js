@@ -1,21 +1,31 @@
 import Entity from "./entity";
 
 export default class Obstacle extends Entity {
-  constructor(
-    game,
-    src = {
-      arrow: { src: "./arrow.png", frames: 3 },
-      barrel: { src: "./barrels.png", frames: 1 },
-    }
-  ) {
-    super(src);
+  static src = {
+    arrow: {
+      src: "./arrow.png",
+      frames: 3,
+      width: 100,
+      height: 14,
+      yOffset: true,
+      speed: -14,
+    },
+    barrel: { src: "./barrels.png", frames: 1, width: 80, height: 95 },
+    thing: { src: "./barrels.png", frames: 1, width: 80, height: 95 },
+  };
+  constructor(game, state) {
+    super(Obstacle.src);
     this.game = game;
-    this.currentState = "barrel";
-    this.width = 60;
-    this.height = 70;
+    this.currentState = state;
+    this.width = Obstacle.src[state].width;
+    this.height = Obstacle.src[state].height;
+    this.yOffset = Obstacle.src[state].yOffset
+      ? Math.random() * 100 + 100
+      : this.height + this.game.floor;
     this.x = game.width;
-    this.y = this.game.height - this.height - this.game.floor;
-    this.speed = this.game.background.floor().speed;
+    this.y = this.game.height - this.yOffset;
+    this.speed =
+      Obstacle.src[state].speed || this.game.background.floor().speed;
     this.hitboxWidth = this.width;
     this.hitboxHeight = this.height;
     this.preload().then(() => {
