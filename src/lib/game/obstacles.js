@@ -11,7 +11,7 @@ export default class Obstacle extends Entity {
       speed: -14,
     },
     barrel: { src: "./barrels.png", frames: 1, width: 80, height: 95 },
-    thing: { src: "./barrels.png", frames: 1, width: 80, height: 95 },
+    thing: { src: "./thing.png", frames: 1, width: 60, height: 56 },
   };
   constructor(game, state) {
     super(Obstacle.src);

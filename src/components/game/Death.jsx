@@ -1,6 +1,8 @@
 // Dark souls death screen
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { AddUserInLeaderboard } from "../../lib/game/database";
+import { useState } from "react";
 
 // Sekiro death maybe ?
 
@@ -104,8 +106,67 @@ const Button = styled(motion.button)`
   }
 `;
 
+const Input = styled(motion.input)`
+  all: unset;
+  width: 60%; /* Adjust based on your design */
+  margin: 1%;
+  padding: 8px 16px;
+  font-size: 1rem;
+  color: white;
+  background-color: #333; /* Dark background */
+  border-bottom: 2px solid white; /* Underline style */
+  text-align: center;
+`;
+
+const SubmitButton = styled(Button)`
+  /* Reuse your existing Button styled component */
+  width: 20%; /* Adjust based on your design */
+  font-size: 1rem;
+`;
+
+const Form = styled.div`
+  width: 50%;
+  height: 50%;
+  border: 2px white solid;
+  background: black;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h3 {
+    font: white;
+    font-size: 2rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+`;
+
 // eslint-disable-next-line react/prop-types
 export default function Death({ score, setState }) {
+  const [username, setUsername] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  // const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    const success = await AddUserInLeaderboard(username, score);
+    setSubmitting(false);
+    if (success) {
+      // Handle successful submission (e.g., show a success message, navigate away, etc.)
+      console.log("Score submitted successfully");
+    } else {
+      // Handle failure (e.g., show an error message)
+      console.log("Failed to submit score");
+    }
+  };
   return (
     <Container>
       <DeathScreen
@@ -148,9 +209,32 @@ export default function Death({ score, setState }) {
           transition={{ duration: 2 }}
         >
           <Button onClick={() => setState("reset")}>Try Again</Button>
-          <Button>Submit Score</Button>
+          <Button onClick={() => setSubmitting(true)}>Submit Score</Button>
         </Grid>
       </BlackScreen>
+      {submitting && (
+        <Form>
+          <h3>SUBMIT YOUR SCORE</h3>
+          <form onSubmit={handleSubmit}>
+            <Input
+              type="text"
+              placeholder="Enter your username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value.toUpperCase())}
+            />
+            <Grid
+              initial={{
+                opacity: 0,
+              }}
+              animate={{ opacity: 0.7 }}
+              transition={{ duration: 2 }}
+            >
+              <SubmitButton type="submit">Submit</SubmitButton>
+              <SubmitButton>back</SubmitButton>
+            </Grid>
+          </form>
+        </Form>
+      )}
     </Container>
   );
 }

@@ -9,8 +9,8 @@ export default class Player extends Entity {
     src = {
       // run: { src: "./Run.png", frames: 8 },
       jump: { src: "./Jump.png", frames: 11, noRepeat: true },
-      // idle: { src: "./Idle.png", frames: 8 },
-      idle: { src: "./running.png", frames: 6, width: 84 },
+      idle: { src: "./Idle.png", frames: 11 },
+      // idle: { src: "./running.png", frames: 6, width: 84 },
       run: { src: "./running.png", frames: 6, width: 84 },
       death: { src: "./Death2.png", frames: 6, noRepeat: true, width: 42 },
       // death: { src: "./Death.png", frames: 6, noRepeat: true },

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
+import { GetLeaderboard } from "../../lib/game/database";
 
 const Container = styled(motion.div)`
   position: absolute;
@@ -34,9 +35,39 @@ const Highlight = styled(motion.div)`
   border-radius: 5px;
 `;
 
+const LeaderBoard = styled(motion.div)`
+  position: absolute;
+  left: 70%;
+  width: 30%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers content horizontally */
+
+  h4 {
+    text-align: center; /* Correct property to center text */
+    width: 100%; /* Ensures the text-align property has an effect */
+    padding: 1%;
+  }
+
+  ol {
+    width: 100%;
+  }
+`;
+
+const Item = styled(motion.div)`
+  display: flex;
+  justify-content: space-around;
+`;
+
 // eslint-disable-next-line react/prop-types
 export default function Pause({ setState }) {
   const [hovered, setHovered] = useState(null);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    GetLeaderboard().then((data) => setData(data));
+  });
 
   const options = {
     resume: () => setState("running"),
@@ -58,7 +89,7 @@ export default function Pause({ setState }) {
     >
       <h2>Pause</h2>
       <ul>
-        {Object.keys(options).map((key, i) => (
+        {Object.keys(options).map((key) => (
           <Option
             key={key}
             onHoverStart={() => setHovered(key)}
@@ -67,11 +98,29 @@ export default function Pause({ setState }) {
             whileHover={{ scale: 1.1 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            {hovered === key && <Highlight layoutId="active-pill" />}
+            {hovered === key && <Highlight layoutId="highlight" />}
             {key}
           </Option>
         ))}
       </ul>
+      <LeaderBoard>
+        <h4>Leaderboard</h4>
+        <ol>
+          {data.map((value, index) => (
+            <motion.li
+              key={index}
+              initial={{ x: -100, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <Item>
+                <span>{value.username}</span>
+                <span>{value.score}</span>
+              </Item>
+            </motion.li>
+          ))}
+        </ol>
+      </LeaderBoard>
     </Container>
   );
 }
