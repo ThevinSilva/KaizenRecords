@@ -46,6 +46,15 @@ const Container = styled.div`
     image-rendering: crisp-edges;
   }
 `;
+const ArtistCredit = styled.a`
+  position: absolute;
+  top: 94%;
+  left: 94%;
+  color: white;
+  text-decoration: none;
+  z-index: 600;
+  margin-top: 10px; /* Add some space above the artist credit */
+`;
 
 const GameUI = styled.div`
   /* border: 1px solid black; */
@@ -153,7 +162,9 @@ export default function About() {
         )}
 
         {state === "death" && <Death score={score} setState={setState} />}
-
+        <ArtistCredit href="https://www.instagram.com/mentalratt/">
+          artist
+        </ArtistCredit>
         {/* NOTE : odometer needs leading zeroes and flash a few times on the screen every certain mile stone */}
       </GameUI>
 

@@ -101,7 +101,6 @@ export default function Leaderboard({ onClose }) {
   useEffect(() => {
     GetLeaderboard().then((data) => {
       setData(data);
-      console.log(data);
     });
   }, []);
 

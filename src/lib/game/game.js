@@ -92,6 +92,7 @@ export default class GameManager {
     const maxSpacing = 600; // Maximum spacing between obstacles
     const choices = Object.keys(Obstacle.src);
     const state = choices[Math.floor(Math.random() * choices.length)];
+    // const state = "fireball";
 
     // Check if the last obstacle exists and its x position
     const lastObstacle = this.obstacles[this.obstacles.length - 1];
