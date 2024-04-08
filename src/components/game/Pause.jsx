@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import { GetLeaderboard } from "../../lib/game/database";
 
 const Container = styled(motion.div)`
   position: absolute;
@@ -14,6 +13,15 @@ const Container = styled(motion.div)`
   overflow: hidden;
   backdrop-filter: blur(10px);
   background-color: rgba(0, 0, 0, 0.5);
+  font-size: 1rem; // Default font size adjusted for better base responsiveness
+
+  @media (max-width: 768px) {
+    font-size: 1rem; // Adjust font size for tablets
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.5rem; // Adjust font size further for mobile phones
+  }
 `;
 
 const Option = styled(motion.li)`
@@ -35,49 +43,17 @@ const Highlight = styled(motion.div)`
   border-radius: 5px;
 `;
 
-const LeaderBoard = styled(motion.div)`
-  position: absolute;
-  left: 70%;
-  width: 30%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centers content horizontally */
-
-  h4 {
-    text-align: center; /* Correct property to center text */
-    width: 100%; /* Ensures the text-align property has an effect */
-    padding: 1%;
-  }
-
-  ol {
-    width: 100%;
-  }
-`;
-
-const Item = styled(motion.div)`
-  display: flex;
-  justify-content: space-around;
-`;
-
 // eslint-disable-next-line react/prop-types
 export default function Pause({ setState }) {
   const [hovered, setHovered] = useState(null);
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    GetLeaderboard().then((data) => setData(data));
-  });
 
   const options = {
     resume: () => setState("running"),
-    controls: () => {
-      console.log("controls");
-    },
+    // controls: () => {
+    //   console.log("controls");
+    // },
     restart: () => {
-      // togglePause(setState);
       setState("reset");
-      // setState("running");
     },
   };
 
@@ -103,24 +79,6 @@ export default function Pause({ setState }) {
           </Option>
         ))}
       </ul>
-      <LeaderBoard>
-        <h4>Leaderboard</h4>
-        <ol>
-          {data.map((value, index) => (
-            <motion.li
-              key={index}
-              initial={{ x: -100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <Item>
-                <span>{value.username}</span>
-                <span>{value.score}</span>
-              </Item>
-            </motion.li>
-          ))}
-        </ol>
-      </LeaderBoard>
     </Container>
   );
 }

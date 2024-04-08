@@ -1,10 +1,8 @@
-// Dark souls death screen
+import { useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import { AddUserInLeaderboard } from "../../lib/game/database";
-import { useState } from "react";
-
-// Sekiro death maybe ?
+import Leaderboard from "./Leaderboard";
 
 const Container = styled(motion.div)`
   position: absolute;
@@ -33,6 +31,14 @@ const Banner = styled(motion.div)`
   box-shadow: 0px 0px 39px 44px rgba(0, 0, 0, 0.72);
   z-index: 50;
 
+  @media (max-width: 768px) {
+    font-size: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
+
   span {
     padding-top: -1em;
     font-family: "Times New Roman", Times, serif !important;
@@ -50,6 +56,18 @@ const BlackScreen = styled(motion.div)`
   justify-content: center;
   align-items: center;
   z-index: 100;
+
+  @media (max-width: 768px) {
+    h4 {
+      font-size: 2rem;
+    } // Adjust font size for tablets
+  }
+
+  @media (max-width: 480px) {
+    h4 {
+      font-size: 1rem;
+    } // Adjust font size further for mobile phones
+  }
 `;
 
 const Grid = styled(motion.div)`
@@ -104,6 +122,14 @@ const Button = styled(motion.button)`
     transform: scaleX(1); /* Scale the underline to full width on hover */
     transform-origin: bottom left; /* End the animation to the left */
   }
+
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.5rem;
+  }
 `;
 
 const Input = styled(motion.input)`
@@ -116,12 +142,28 @@ const Input = styled(motion.input)`
   background-color: #333; /* Dark background */
   border-bottom: 2px solid white; /* Underline style */
   text-align: center;
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+    height: 10%; /* Adjust based on your design */
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.5rem;
+  }
 `;
 
 const SubmitButton = styled(Button)`
   /* Reuse your existing Button styled component */
   width: 20%; /* Adjust based on your design */
   font-size: 1rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.5rem;
+  }
 `;
 
 const Form = styled.div`
@@ -134,10 +176,26 @@ const Form = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   h3 {
     font: white;
     font-size: 2rem;
+  }
+
+  @media (max-width: 900px) {
+    h3 {
+      font-size: 0.8rem;
+    }
+  }
+  @media (max-width: 768px) {
+    h3 {
+      font-size: 0.75rem;
+    } // Adjust font size for tablets
+  }
+
+  @media (max-width: 480px) {
+    h3 {
+      font-size: 0.5rem;
+    } // Adjust font size further for mobile phones
   }
 
   form {
@@ -148,46 +206,60 @@ const Form = styled.div`
   }
 `;
 
+const ErrorMessage = styled(motion.span)`
+  color: #ff6347;
+  margin-top: 1rem;
+`;
+
 // eslint-disable-next-line react/prop-types
 export default function Death({ score, setState }) {
   const [username, setUsername] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  // const [submitted, setSubmitted] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [error, setError] = useState("");
+
+  const validateUsername = (username) => {
+    if (!username.trim()) return "Username cannot be empty.";
+    if (username.length < 3)
+      return "Username must be at least 3 characters long.";
+    // Example pattern match (adjust as necessary): letters, numbers, and underscores only
+    if (!/^\w+$/.test(username))
+      return "Username must contain only letters, numbers, and underscores.";
+    return ""; // No errors
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const validationError = validateUsername(username);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
     setSubmitting(true);
     const success = await AddUserInLeaderboard(username, score);
     setSubmitting(false);
     if (success) {
-      // Handle successful submission (e.g., show a success message, navigate away, etc.)
       console.log("Score submitted successfully");
+      setShowLeaderboard(true); // Optionally, navigate to leaderboard or show a success message
     } else {
-      // Handle failure (e.g., show an error message)
-      console.log("Failed to submit score");
+      setError("Failed to submit score. Please try again.");
     }
   };
+
   return (
     <Container>
       <DeathScreen
-        initial={{
-          opacity: 1,
-        }}
+        initial={{ opacity: 1 }}
         animate={{ opacity: 0 }}
         transition={{ delay: 3, duration: 1 }}
       >
         <Banner
-          initial={{
-            opacity: 0,
-          }}
+          initial={{ opacity: 0 }}
           animate={{ opacity: 0.7 }}
           transition={{ duration: 1 }}
         >
           <motion.span
-            initial={{
-              opacity: 0,
-              scale: 1,
-            }}
+            initial={{ opacity: 0, scale: 1 }}
             animate={{ opacity: 0.7, scale: 1.4 }}
             transition={{ delay: 1, duration: 1 }}
           >
@@ -201,15 +273,10 @@ export default function Death({ score, setState }) {
         transition={{ delay: 4, duration: 1 }}
       >
         <h4>You scored {score} pts!</h4>
-        <Grid
-          initial={{
-            opacity: 0,
-          }}
-          animate={{ opacity: 0.7 }}
-          transition={{ duration: 2 }}
-        >
+        <Grid>
           <Button onClick={() => setState("reset")}>Try Again</Button>
           <Button onClick={() => setSubmitting(true)}>Submit Score</Button>
+          <Button onClick={() => setShowLeaderboard(true)}>Leaderboard</Button>
         </Grid>
       </BlackScreen>
       {submitting && (
@@ -220,20 +287,18 @@ export default function Death({ score, setState }) {
               type="text"
               placeholder="Enter your username"
               value={username}
-              onChange={(e) => setUsername(e.target.value.toUpperCase())}
+              onChange={(e) => setUsername(e.target.value)}
             />
-            <Grid
-              initial={{
-                opacity: 0,
-              }}
-              animate={{ opacity: 0.7 }}
-              transition={{ duration: 2 }}
-            >
+            {error && <ErrorMessage>{error}</ErrorMessage>}
+            <Grid>
               <SubmitButton type="submit">Submit</SubmitButton>
-              <SubmitButton>back</SubmitButton>
+              <Button onClick={() => setSubmitting(false)}>Back</Button>
             </Grid>
           </form>
         </Form>
+      )}
+      {showLeaderboard && (
+        <Leaderboard onClose={() => setShowLeaderboard(false)} />
       )}
     </Container>
   );

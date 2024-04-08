@@ -49,14 +49,13 @@ export default class Player extends Entity {
       this.y = this.game.height - this.height - this.game.floor;
       this.vy = 0;
       this.onGround = true;
-      this.currentState = "run";
+      this.currentState = !this.game.running
+        ? this.death
+          ? "death"
+          : "idle"
+        : "run";
     } else {
       this.onGround = false;
-    }
-
-    if (!this.game.running) this.currentState = "idle";
-    if (this.death) {
-      this.currentState = "death";
     }
 
     // Call the inherited method to update animation

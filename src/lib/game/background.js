@@ -2,9 +2,11 @@ export default class Background {
   // Dummy Data
 
   // - Add slower pace for swirly
+  static MaxSpeed = -8;
 
   constructor(game) {
     this.game = game;
+    this._speed = -4;
     // Define layers for the parallax effect
     this.layers = [
       {
@@ -53,9 +55,7 @@ export default class Background {
       },
       {
         src: "./bamboo_1.png",
-        speed: -4,
         floor: true,
-
         x: 0,
         img: new Image(),
         width: 0,
@@ -72,7 +72,6 @@ export default class Background {
 
       {
         src: "./trees_floor.png",
-        speed: -4,
         floor: true,
         x: 0,
         img: new Image(),
@@ -82,7 +81,6 @@ export default class Background {
       {
         src: "./swirly.png",
         lowSpeed: -0.5,
-        speed: -4.5,
         x: 0,
         img: new Image(),
         floor: true,
@@ -102,13 +100,24 @@ export default class Background {
     });
   }
 
+  set speed(val) {
+    if (val >= Background.MaxSpeed) this._speed = val;
+  }
+
+  get speed() {
+    return this._speed;
+  }
+
   update() {
     if (this.paused) return;
     this.layers.forEach((layer) => {
       if (layer.speed !== 0) {
         // Only update layers that move
+        const lowSpeed = layer.lowSpeed || 0;
         layer.x +=
-          layer.floor && !this.game.running ? layer.lowSpeed || 0 : layer.speed;
+          layer.floor && !this.game.running
+            ? lowSpeed || 0
+            : layer.speed || this.speed - lowSpeed;
         if (layer.width > 0) {
           layer.x %= layer.width; // Seamless looping
         }

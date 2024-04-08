@@ -9,6 +9,7 @@ export default class GameManager {
     this.width = width;
     this.canvas.height = height;
     this.canvas.width = width;
+    this.score = 0;
     this.context = this.canvas.getContext("2d");
     this._lastRenderTime = 0;
     this.targetFPS = 90; // Target frame rate
@@ -36,6 +37,7 @@ export default class GameManager {
   reset() {
     this.setScore(0);
     this.running = false;
+    this.score = 0;
     this.player.reset();
     this.obstacles.forEach((obstacle) => this.removeObstacle(obstacle));
   }
@@ -47,7 +49,7 @@ export default class GameManager {
 
   update(deltaTime) {
     this.obstacles.forEach((obstacle) => {
-      obstacle.update(deltaTime);
+      if (!this.player.paused) obstacle.update(deltaTime);
       if (this.player.checkCollision(obstacle)) this.death();
     });
     this.player.update();
@@ -55,6 +57,10 @@ export default class GameManager {
 
     if (this._interval >= 0.5 && !this.player.paused && this.running) {
       this.setScore((prevScore) => prevScore + 1);
+      this.score += 1;
+      if (this.score % 100 === 0 && this.score !== 0) {
+        this.background.speed -= 1;
+      }
       this._interval = 0;
     }
     this._interval += deltaTime;
@@ -81,7 +87,7 @@ export default class GameManager {
   }
 
   spawnObstacle() {
-    const spacingProbability = 0.01; // Base probability of spacing between obstacles
+    const spacingProbability = 0.05; // Base probability of spacing between obstacles
     const minSpacing = 300; // Minimum spacing between obstacles
     const maxSpacing = 600; // Maximum spacing between obstacles
     const choices = Object.keys(Obstacle.src);
@@ -144,7 +150,7 @@ export default class GameManager {
 
   death() {
     this.setState("death");
-    if (!this.player.death) this.player.currentFrame = 0;
+    // if (!this.player.death) this.player.currentFrame = 0;
     this.player.death = true;
     this.running = false;
   }

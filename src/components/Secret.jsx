@@ -137,7 +137,6 @@ export default function About() {
       wrapText={true}
       minSize={"4em"}
     >
-      {state}
       <GameUI canvasSize={canvasSize}>
         {state === "running" && (
           <>

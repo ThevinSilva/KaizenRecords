@@ -3,8 +3,19 @@ export default class Entity {
     this.states = src;
     this.frameCounter = 0;
     this.currentFrame = 0;
-    this.currentState = "idle"; // Default state
+    this._currentState = "idle"; // Default state
     this.ready = false;
+  }
+
+  set currentState(state) {
+    if (this._currentState !== state) {
+      this.currentFrame = 0;
+      this._currentState = state;
+    }
+  }
+
+  get currentState() {
+    return this._currentState;
   }
 
   async preloadImage(url) {
