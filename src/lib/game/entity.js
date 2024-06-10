@@ -52,18 +52,20 @@ export default class Entity {
     }
   }
 
-  checkCollision(otherEntity, xOffset = 0, yoffset = 0) {
+  checkCollision(otherEntity) {
     // Bounding box of the current entity using hitbox dimensions
-    const thisLeft = this.x + xOffset;
-    const thisRight = this.x + this.hitboxWidth + xOffset;
-    const thisTop = this.y + yoffset;
-    const thisBottom = this.y + this.hitboxHeight + yoffset;
+    const thisLeft = this.x + this.xOffset;
+    const thisRight = this.x + this.hitboxWidth + this.xOffset;
+    const thisTop = this.y + this.yOffset;
+    const thisBottom = this.y + this.hitboxHeight + this.yOffset;
 
     // Bounding box of the other entity using hitbox dimensions
-    const otherLeft = otherEntity.x;
-    const otherRight = otherEntity.x + otherEntity.hitboxWidth;
-    const otherTop = otherEntity.y;
-    const otherBottom = otherEntity.y + otherEntity.hitboxHeight;
+    const otherLeft = otherEntity.x + otherEntity.xOffset;
+    const otherRight =
+      otherEntity.x + otherEntity.hitboxWidth + otherEntity.xOffset;
+    const otherTop = otherEntity.y + otherEntity.yOffset;
+    const otherBottom =
+      otherEntity.y + otherEntity.hitboxHeight + otherEntity.yOffset;
 
     // Check for collision
     if (
@@ -78,7 +80,7 @@ export default class Entity {
     return false;
   }
 
-  draw(context, x, y, width, height, xOffset = 0) {
+  draw(context, x, y, width, height) {
     if (!this.ready) return;
 
     const state = this.states[this.currentState];
@@ -90,9 +92,9 @@ export default class Entity {
     context.drawImage(
       state.image,
       frameX,
-      xOffset, // Assuming all frames have the same height
+      0, // Assuming all frames have the same height
       frameWidth,
-      height, // Assuming all frames have the same height
+      height,
       x,
       y,
       frameWidth,

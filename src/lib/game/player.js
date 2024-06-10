@@ -26,8 +26,10 @@ export default class Player extends Entity {
     this.y = game.height - this.height - game.floor;
     this.vy = 0; // Vertical velocity
     this.onGround = false;
-    this.hitboxWidth = 42;
+    this.hitboxWidth = 32;
     this.hitboxHeight = 70;
+    this.xOffset = 20;
+    this.yOffset = 0;
     this.paused = false;
     this.death = false;
     this.dying = false;
@@ -68,10 +70,17 @@ export default class Player extends Entity {
     // Call the inherited method to draw the entity
     super.draw(this.game.context, this.x, this.y, this.width, this.height);
     // super.draw(this.game.context, this.x, this.y, this.width, this.height, 20);
+  }
 
+  drawHitBox() {
     // Draw hitbox (optional)
-    // this.game.context.fillStyle = "green";
-    // this.game.context.fillRect(this.x, this.y, 42, 70);
+    this.game.context.fillStyle = "green";
+    this.game.context.fillRect(
+      this.x + this.xOffset,
+      this.y + this.yOffset,
+      this.hitboxWidth,
+      this.hitboxHeight
+    );
   }
 
   reset() {

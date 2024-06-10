@@ -72,24 +72,19 @@ export default class GameManager {
     this.context.clearRect(0, 0, this.width, this.height); // Clear the canvas for fresh drawing
 
     this.background.draw();
+
+    // HITBOX MODE
+    this.player.drawHitBox();
+    this.obstacles.forEach((obstacle) => obstacle.drawHitBox());
+    // NORMAL MODE
     this.player.draw();
     this.obstacles.forEach((obstacle) => obstacle.draw());
-    // this.context.fillStyle = "green";
-    // this.context.fillRect(600, 380, 100, 10);
-
-    // const image = new Image();
-    // image.src = "./opacity.png";
-
-    // this.context.drawImage(image, 0, 0, 60, 70, 600, 380, 60, 70);
-
-    // Draw the player on the canvas
-    // Here you would also draw other game entities
   }
 
   spawnObstacle() {
     const spacingProbability = 0.05; // Base probability of spacing between obstacles
-    const minSpacing = 300; // Minimum spacing between obstacles
-    const maxSpacing = 600; // Maximum spacing between obstacles
+    const minSpacing = 1000; // Minimum spacing between obstacles
+    const maxSpacing = 2000; // Maximum spacing between obstacles
     const choices = Object.keys(Obstacle.src);
     const state = choices[Math.floor(Math.random() * choices.length)];
     // const state = "fireball";

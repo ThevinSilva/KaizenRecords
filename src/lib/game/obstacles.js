@@ -7,21 +7,43 @@ export default class Obstacle extends Entity {
       frames: 3,
       width: 100,
       height: 14,
-      yOffset: true,
-      speed: -14,
-    },
-    fireball: {
-      src: "./fireball.png",
-      frames: 1,
-      width: 64,
-      height: 32,
-      yOffset: false,
+      hitboxWidth: 75,
+      hitboxHeight: 8,
+      randomY: true,
       speed: -10,
-      gravity: 0.5, // Adjust gravity effect on the fireball
-      bounceVelocity: -10, // Initial bounce velocity (upwards)
+      xOffset: 20,
+      yOffset: 3,
     },
-    barrel: { src: "./barrels.png", frames: 1, width: 80, height: 95 },
-    thing: { src: "./thing.png", frames: 1, width: 60, height: 56 },
+    // fireball: {
+    //   src: "./fireball.png",
+    //   frames: 1,
+    //   width: 64,
+    //   height: 32,
+    //   yOffset: false,
+    //   speed: -10,
+    //   gravity: 0.5, // Adjust gravity effect on the fireball
+    //   bounceVelocity: -10, // Initial bounce velocity (upwards)
+    // },
+    barrel: {
+      src: "./barrels.png",
+      frames: 1,
+      width: 80,
+      height: 95,
+      hitboxWidth: 60,
+      hitboxHeight: 70,
+      xOffset: 15,
+      yOffset: 25,
+    },
+    thing: {
+      src: "./thing.png",
+      frames: 1,
+      width: 60,
+      height: 56,
+      hitboxWidth: 50,
+      hitboxHeight: 45,
+      xOffset: 5,
+      yOffset: 11,
+    },
   };
   constructor(game, state) {
     super(Obstacle.src);
@@ -30,14 +52,17 @@ export default class Obstacle extends Entity {
     const properties = Obstacle.src[state];
     this.width = properties.width;
     this.height = properties.height;
-    this.yOffset = properties.yOffset
+    this.hitboxWidth = properties.hitboxWidth || this.width;
+    this.hitboxHeight = properties.hitboxHeight || this.height;
+    this.xOffset = properties.xOffset || 0;
+    this.yOffset = properties.yOffset || 0;
+    this.randomY = properties.randomY
       ? Math.random() * 100 + 100
       : this.height + this.game.floor;
     this.x = game.width;
-    this.y = this.game.height - this.yOffset;
+    this.y = this.game.height - this.randomY;
     this.speed = properties.speed || this.game.background.speed;
-    this.hitboxWidth = this.width;
-    this.hitboxHeight = this.height;
+
     // Initialize vertical velocity and gravity if the obstacle is a fireball
     if (state === "fireball") {
       this.yVelocity = properties.bounceVelocity;
@@ -74,9 +99,16 @@ export default class Obstacle extends Entity {
   draw() {
     // Call the inherited method to draw the obstacle
     super.draw(this.game.context, this.x, this.y, this.width, this.height);
+  }
 
+  drawHitBox() {
     // // Draw hitbox (optional)
-    // this.game.context.fillStyle = "red";
-    // this.game.context.fillRect(this.x, this.y, this.width, this.height);
+    this.game.context.fillStyle = "red";
+    this.game.context.fillRect(
+      this.x + this.xOffset,
+      this.y + this.yOffset,
+      this.hitboxWidth,
+      this.hitboxHeight
+    );
   }
 }
