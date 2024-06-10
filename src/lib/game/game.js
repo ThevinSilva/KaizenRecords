@@ -74,8 +74,8 @@ export default class GameManager {
     this.background.draw();
 
     // HITBOX MODE
-    this.player.drawHitBox();
-    this.obstacles.forEach((obstacle) => obstacle.drawHitBox());
+    // this.player.drawHitBox();
+    // this.obstacles.forEach((obstacle) => obstacle.drawHitBox());
     // NORMAL MODE
     this.player.draw();
     this.obstacles.forEach((obstacle) => obstacle.draw());
