@@ -83,8 +83,8 @@ export default class GameManager {
 
   spawnObstacle() {
     const spacingProbability = 0.05; // Base probability of spacing between obstacles
-    const minSpacing = 1000; // Minimum spacing between obstacles
-    const maxSpacing = 2000; // Maximum spacing between obstacles
+    const minSpacing = 1400; // Minimum spacing between obstacles
+    const maxSpacing = 2800; // Maximum spacing between obstacles
     const choices = Object.keys(Obstacle.src);
     const state = choices[Math.floor(Math.random() * choices.length)];
     // const state = "fireball";
